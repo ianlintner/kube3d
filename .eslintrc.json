@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "env": {
+    "es2020": true
+  },
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "overrides": [
+    {
+      "files": ["explore.js"],
+      "env": {
+        "node": true,
+        "commonjs": true
+      },
+      "parserOptions": {
+        "sourceType": "script"
+      }
+    },
+    {
+      "files": ["dashboard/**/*.js"],
+      "env": {
+        "browser": true
+      },
+      "parserOptions": {
+        "sourceType": "module"
+      }
+    }
+  ],
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off"
+  }
+}

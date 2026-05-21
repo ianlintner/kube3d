@@ -7,14 +7,16 @@ function getKubectlJson(resource, args = '') {
   try {
     const cmd = `kubectl get ${resource} ${args} -o json`;
     console.log(`Executing: ${cmd}`);
-    const output = execSync(cmd, { 
-      stdio: ['ignore', 'pipe', 'ignore'], 
+    const output = execSync(cmd, {
+      stdio: ['ignore', 'pipe', 'ignore'],
       encoding: 'utf-8',
-      maxBuffer: 50 * 1024 * 1024 // 50MB buffer
+      maxBuffer: 50 * 1024 * 1024, // 50MB buffer
     });
     return JSON.parse(output);
   } catch (error) {
-    console.warn(`⚠️  Failed to fetch ${resource}. It might not exist or be accessible in this cluster. Error: ${error.message}`);
+    console.warn(
+      `⚠️  Failed to fetch ${resource}. It might not exist or be accessible in this cluster. Error: ${error.message}`
+    );
     return { items: [] };
   }
 }
@@ -22,10 +24,10 @@ function getKubectlJson(resource, args = '') {
 // Check if a CRD exists in the cluster
 function hasCrd(crdName) {
   try {
-    const output = execSync(`kubectl get crd ${crdName} -o name`, { 
-      stdio: ['ignore', 'pipe', 'ignore'], 
+    const output = execSync(`kubectl get crd ${crdName} -o name`, {
+      stdio: ['ignore', 'pipe', 'ignore'],
       encoding: 'utf-8',
-      maxBuffer: 10 * 1024 * 1024 // 10MB buffer
+      maxBuffer: 10 * 1024 * 1024, // 10MB buffer
     });
     return output.trim().length > 0;
   } catch (error) {
@@ -39,7 +41,7 @@ function resolveServiceHost(host, defaultNamespace) {
   const parts = host.split('.');
   const name = parts[0];
   let namespace = defaultNamespace;
-  
+
   if (parts.length > 1) {
     // If it is something like svc-name.namespace or svc-name.namespace.svc...
     if (parts[1] !== 'svc' && parts[1] !== 'cluster') {
@@ -73,12 +75,10 @@ function main() {
   function addLink(link) {
     // Only add link if source and target are not empty
     if (!link.source || !link.target) return;
-    
+
     // Check if link already exists
-    const exists = links.some(l => 
-      l.source === link.source && 
-      l.target === link.target && 
-      l.type === link.type
+    const exists = links.some(
+      l => l.source === link.source && l.target === link.target && l.type === link.type
     );
     if (!exists) {
       links.push(link);
@@ -99,8 +99,8 @@ function main() {
       labels: ns.metadata.labels || {},
       details: {
         creationTimestamp: ns.metadata.creationTimestamp,
-        uid: ns.metadata.uid
-      }
+        uid: ns.metadata.uid,
+      },
     });
   });
 
@@ -112,7 +112,7 @@ function main() {
     const readyCond = node.status?.conditions?.find(c => c.type === 'Ready');
     const status = readyCond?.status === 'True' ? 'Ready' : 'NotReady';
     const internalIP = node.status?.addresses?.find(a => a.type === 'InternalIP')?.address || '';
-    
+
     addNode({
       id: `node/${name}`,
       name: name,
@@ -124,8 +124,8 @@ function main() {
         osImage: node.status?.nodeInfo?.osImage || '',
         internalIP: internalIP,
         cpu: node.status?.capacity?.cpu || '',
-        memory: node.status?.capacity?.memory || ''
-      }
+        memory: node.status?.capacity?.memory || '',
+      },
     });
   });
 
@@ -154,8 +154,8 @@ function main() {
       labels: dep.metadata.labels || {},
       details: {
         replicas: `${available}/${desired}`,
-        strategy: dep.spec?.strategy?.type || 'RollingUpdate'
-      }
+        strategy: dep.spec?.strategy?.type || 'RollingUpdate',
+      },
     });
     // Link to namespace
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
@@ -179,17 +179,17 @@ function main() {
       labels: sts.metadata.labels || {},
       details: {
         replicas: `${ready}/${desired}`,
-        serviceName: sts.spec?.serviceName || ''
-      }
+        serviceName: sts.spec?.serviceName || '',
+      },
     });
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
-    
+
     // If it refers to a serviceName, let's link the StatefulSet to the Service
     if (sts.spec?.serviceName) {
       addLink({
         source: id,
         target: `service/${ns}/${sts.spec.serviceName}`,
-        type: 'routes-to'
+        type: 'routes-to',
       });
     }
   });
@@ -211,8 +211,8 @@ function main() {
       status,
       labels: ds.metadata.labels || {},
       details: {
-        replicas: `${ready}/${desired}`
-      }
+        replicas: `${ready}/${desired}`,
+      },
     });
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
   });
@@ -235,7 +235,7 @@ function main() {
         namespace: ns,
         status,
         labels: rs.metadata.labels || {},
-        details: { replicas: `${ready}/${desired}` }
+        details: { replicas: `${ready}/${desired}` },
       });
       addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -245,7 +245,7 @@ function main() {
         addLink({
           source: `deployment/${ns}/${owner.name}`,
           target: id,
-          type: 'manages'
+          type: 'manages',
         });
       }
     }
@@ -254,7 +254,7 @@ function main() {
   // 4. Fetch Pods
   console.log('🛸 Querying Pods...');
   const podData = getKubectlJson('pods', '-A');
-  
+
   // Track pod IPs and labels for service matching
   const podList = [];
 
@@ -265,7 +265,7 @@ function main() {
     const status = pod.status?.phase || 'Unknown';
     const podIP = pod.status?.podIP || '';
     const nodeName = pod.spec?.nodeName || '';
-    
+
     // Check if meshed (Istio proxy container)
     const isMeshed = pod.spec?.containers?.some(c => c.name === 'istio-proxy') || false;
     const containers = pod.spec?.containers?.map(c => c.name) || [];
@@ -282,10 +282,10 @@ function main() {
         nodeName,
         containers,
         meshed: isMeshed,
-        serviceAccount: pod.spec?.serviceAccountName || 'default'
-      }
+        serviceAccount: pod.spec?.serviceAccountName || 'default',
+      },
     };
-    
+
     addNode(podNode);
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -293,7 +293,7 @@ function main() {
     podList.push({
       id,
       namespace: ns,
-      labels: pod.metadata.labels || {}
+      labels: pod.metadata.labels || {},
     });
 
     // Link Pod to Node (hosts relationship)
@@ -301,12 +301,12 @@ function main() {
       addLink({
         source: `node/${nodeName}`,
         target: id,
-        type: 'hosts'
+        type: 'hosts',
       });
     }
 
     // Owner Reference check (ReplicaSet, StatefulSet, DaemonSet, Job, etc.)
-    const owner = pod.metadata.ownerReferences?.find(o => 
+    const owner = pod.metadata.ownerReferences?.find(o =>
       ['ReplicaSet', 'StatefulSet', 'DaemonSet', 'Job'].includes(o.kind)
     );
     if (owner) {
@@ -314,7 +314,7 @@ function main() {
       addLink({
         source: `${ownerKind}/${ns}/${owner.name}`,
         target: id,
-        type: 'manages'
+        type: 'manages',
       });
     }
 
@@ -326,7 +326,7 @@ function main() {
           addLink({
             source: id,
             target: `pvc/${ns}/${claimName}`,
-            type: 'claims-volume'
+            type: 'claims-volume',
           });
         }
       });
@@ -342,12 +342,12 @@ function main() {
         namespace: ns,
         status: 'Active',
         labels: {},
-        details: {}
+        details: {},
       });
       addLink({
         source: saId,
         target: id,
-        type: 'binds'
+        type: 'binds',
       });
     }
   });
@@ -363,9 +363,11 @@ function main() {
     const id = `service/${ns}/${name}`;
     const type = svc.spec?.type || 'ClusterIP';
     const clusterIP = svc.spec?.clusterIP || '';
-    const externalIP = svc.status?.loadBalancer?.ingress?.map(i => i.ip || i.hostname).join(', ') || '';
-    const ports = svc.spec?.ports?.map(p => `${p.port}/${p.protocol} (${p.name || 'unnamed'})`) || [];
-    
+    const externalIP =
+      svc.status?.loadBalancer?.ingress?.map(i => i.ip || i.hostname).join(', ') || '';
+    const ports =
+      svc.spec?.ports?.map(p => `${p.port}/${p.protocol} (${p.name || 'unnamed'})`) || [];
+
     addNode({
       id,
       name,
@@ -377,8 +379,8 @@ function main() {
         serviceType: type,
         clusterIP,
         externalIP,
-        ports
-      }
+        ports,
+      },
     });
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -405,7 +407,7 @@ function main() {
               source: id,
               target: pod.id,
               type: 'routes-to',
-              protocol
+              protocol,
             });
           }
         }
@@ -419,7 +421,8 @@ function main() {
     const ns = ing.metadata.namespace;
     const id = `ingress/${ns}/${name}`;
     const hosts = ing.spec?.rules?.map(r => r.host).filter(Boolean) || [];
-    const loadBalancer = ing.status?.loadBalancer?.ingress?.map(i => i.ip || i.hostname).join(', ') || '';
+    const loadBalancer =
+      ing.status?.loadBalancer?.ingress?.map(i => i.ip || i.hostname).join(', ') || '';
 
     addNode({
       id,
@@ -430,8 +433,8 @@ function main() {
       labels: ing.metadata.labels || {},
       details: {
         hosts,
-        loadBalancer
-      }
+        loadBalancer,
+      },
     });
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -446,7 +449,7 @@ function main() {
                 source: id,
                 target: `service/${ns}/${svcName}`,
                 type: 'exposes',
-                protocol: 'http'
+                protocol: 'http',
               });
             }
           });
@@ -460,7 +463,7 @@ function main() {
         source: id,
         target: `service/${ns}/${defBackendSvc}`,
         type: 'exposes',
-        protocol: 'http'
+        protocol: 'http',
       });
     }
   });
@@ -488,8 +491,8 @@ function main() {
         volumeName,
         storageClass,
         capacity,
-        status
-      }
+        status,
+      },
     });
     addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
   });
@@ -513,8 +516,11 @@ function main() {
       const name = gw.metadata.name;
       const ns = gw.metadata.namespace;
       const id = `gateway/${ns}/${name}`;
-      const servers = gw.spec?.servers?.map(s => `${s.port?.number}/${s.port?.protocol} (${s.hosts?.join(',')})`) || [];
-      
+      const servers =
+        gw.spec?.servers?.map(
+          s => `${s.port?.number}/${s.port?.protocol} (${s.hosts?.join(',')})`
+        ) || [];
+
       addNode({
         id,
         name,
@@ -522,7 +528,7 @@ function main() {
         namespace: ns,
         status: 'Active',
         labels: gw.metadata.labels || {},
-        details: { servers }
+        details: { servers },
       });
       addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
     });
@@ -545,7 +551,7 @@ function main() {
         namespace: ns,
         status: 'Active',
         labels: vs.metadata.labels || {},
-        details: { hosts, gateways: gatewayRefs }
+        details: { hosts, gateways: gatewayRefs },
       });
       addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -559,20 +565,20 @@ function main() {
           gwNs = parts[0];
           gwName = parts[1];
         }
-        
+
         // Skip default mesh sidecar traffic routing
         if (gwRef !== 'mesh') {
           addLink({
             source: `gateway/${gwNs}/${gwName}`,
             target: id,
             type: 'routes-to',
-            protocol: 'http'
+            protocol: 'http',
           });
         }
       });
 
       // Link VirtualService to Destination Services
-      const parseRoutes = (routes) => {
+      const parseRoutes = routes => {
         if (!routes) return;
         routes.forEach(route => {
           const dest = route.destination;
@@ -583,12 +589,12 @@ function main() {
               let protocol = 'http';
               if (vs.spec.tcp) protocol = 'tcp';
               if (vs.spec.tls) protocol = 'tls';
-              
+
               addLink({
                 source: id,
                 target: `service/${resolved.namespace}/${resolved.name}`,
                 type: 'routes-to',
-                protocol
+                protocol,
               });
             }
           }
@@ -626,7 +632,7 @@ function main() {
         namespace: ns,
         status: 'Active',
         labels: dr.metadata.labels || {},
-        details: { host, subsets, trafficPolicy }
+        details: { host, subsets, trafficPolicy },
       });
       addLink({ source: `namespace/${ns}`, target: id, type: 'contains' });
 
@@ -637,7 +643,7 @@ function main() {
           addLink({
             source: id,
             target: `service/${resolved.namespace}/${resolved.name}`,
-            type: 'configures'
+            type: 'configures',
           });
         }
       }
@@ -661,20 +667,23 @@ function main() {
         namespace: ns,
         status: 'Active',
         labels: pa.metadata.labels || {},
-        details: { mtlsMode: mode }
+        details: { mtlsMode: mode },
       });
 
       if (selector) {
         // Link to matching workloads (Deployments, StatefulSets) in the same namespace
         const selectorKeys = Object.keys(selector);
         nodes.forEach(node => {
-          if (node.namespace === ns && ['deployment', 'statefulset', 'daemonset'].includes(node.type)) {
+          if (
+            node.namespace === ns &&
+            ['deployment', 'statefulset', 'daemonset'].includes(node.type)
+          ) {
             const matches = selectorKeys.every(key => node.labels[key] === selector[key]);
             if (matches) {
               addLink({
                 source: id,
                 target: node.id,
-                type: 'secures'
+                type: 'secures',
               });
             }
           }
@@ -684,7 +693,7 @@ function main() {
         addLink({
           source: id,
           target: `namespace/${ns}`,
-          type: 'secures'
+          type: 'secures',
         });
       }
     });
@@ -696,9 +705,9 @@ function main() {
   // Write graph files
   const rootPath = path.join(__dirname, 'cluster-graph.json');
   const dashboardPath = path.join(__dirname, 'dashboard', 'cluster-graph.json');
-  
+
   const jsonContent = JSON.stringify({ nodes, links }, null, 2);
-  
+
   fs.writeFileSync(rootPath, jsonContent, 'utf-8');
   console.log(`✅ Saved root cluster graph to: ${rootPath}`);
 
@@ -713,7 +722,7 @@ function main() {
   } catch (err) {
     console.warn('⚠️ Could not save to dashboard folder:', err.message);
   }
-  
+
   console.log('✅ Success! Cluster graph data collection complete.');
 }
 

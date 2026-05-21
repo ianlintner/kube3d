@@ -1,0 +1,17 @@
+{
+  "name": "k8s-3d-root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Root workspace configuration for Kube3D Explorer and Dashboard",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,json,md,html,css}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md,html,css}\"",
+    "lint": "eslint \".\" --ext .js"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.2.5"
+  }
+}

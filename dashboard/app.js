@@ -8,7 +8,7 @@ let graphData = { nodes: [], links: [] };
 let filteredData = { nodes: [], links: [] };
 let activeFilters = {
   namespaces: new Set(),
-  types: new Set()
+  types: new Set(),
 };
 let selectedNode = null;
 let hoveredNode = null;
@@ -59,12 +59,12 @@ const resourceConfig = {
   virtualservice: { color: '#06b6d4', name: 'VirtualService', size: 10, geo: 'octahedron' },
   destinationrule: { color: '#14b8a6', name: 'DestinationRule', size: 9, geo: 'tetrahedron' },
   serviceaccount: { color: '#d946ef', name: 'ServiceAccount', size: 6, geo: 'user' },
-  pvc: { color: '#10b981', name: 'PersistentVolumeClaim', size: 9, geo: 'cylinder' }
+  pvc: { color: '#10b981', name: 'PersistentVolumeClaim', size: 9, geo: 'cylinder' },
 };
 
 // Global error monitoring to output errors directly to the status bar for debugging
-window.addEventListener('error', (event) => {
-  console.error("Caught global error:", event.error);
+window.addEventListener('error', event => {
+  console.error('Caught global error:', event.error);
   const statusEl = document.getElementById('status-message');
   if (statusEl) {
     statusEl.innerHTML = `<span style="color: #f87171; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">⚠️ Script Error: ${event.message} (${event.filename.split('/').pop()}:${event.lineno})</span>`;
@@ -78,13 +78,13 @@ let animatingMeshes = [];
 function startAnimationLoop() {
   function tick() {
     requestAnimationFrame(tick);
-    
+
     // Purge elements that are no longer part of the active scene (e.g. filtered out or re-created)
     animatingMeshes = animatingMeshes.filter(item => {
       if (!item.mesh) {
         return false;
       }
-      
+
       // Traverse up the parent chain to see if the element is connected to the Scene.
       // Simply checking .parent is not enough because discarded node groups still have their children attached,
       // creating a massive memory leak and CPU freeze.
@@ -97,11 +97,11 @@ function startAnimationLoop() {
         }
         obj = obj.parent;
       }
-      
+
       if (!isAttached) {
         return false; // Discard and stop animating
       }
-      
+
       // Apply billboarding if registered
       if (item.billboard) {
         const camera = Graph.camera();
@@ -113,7 +113,7 @@ function startAnimationLoop() {
             const dir = new THREE.Vector3().subVectors(camPos, meshPos);
             dir.y = 0; // Lock vertical axis
             dir.normalize();
-            
+
             if (dir.lengthSq() > 0) {
               const angle = Math.atan2(dir.x, dir.z);
               item.mesh.rotation.set(0, angle, 0);
@@ -124,12 +124,12 @@ function startAnimationLoop() {
           }
         }
       }
-      
+
       // Apply rotation step
       if (item.rotateX) item.mesh.rotation.x += item.rotateX;
       if (item.rotateY) item.mesh.rotation.y += item.rotateY;
       if (item.rotateZ) item.mesh.rotation.z += item.rotateZ;
-      
+
       return true; // Keep tracking
     });
 
@@ -138,12 +138,20 @@ function startAnimationLoop() {
       const scene = Graph.scene();
       if (scene) {
         scene.traverse(child => {
-          if (child.isMesh && (child.__linkThreeObjType === 'arrow' || (child.geometry && child.geometry.type === 'ConeGeometry'))) {
+          if (
+            child.isMesh &&
+            (child.__linkThreeObjType === 'arrow' ||
+              (child.geometry && child.geometry.type === 'ConeGeometry'))
+          ) {
             let isLinkArrow = false;
             let linkObj = null;
             let parent = child; // Start checking from the child itself as __data is bound to the arrow mesh
             while (parent) {
-              if (parent.__data && parent.__data.source !== undefined && parent.__data.target !== undefined) {
+              if (
+                parent.__data &&
+                parent.__data.source !== undefined &&
+                parent.__data.target !== undefined
+              ) {
                 isLinkArrow = true;
                 linkObj = parent.__data;
                 break;
@@ -166,7 +174,7 @@ function startAnimationLoop() {
                   color: colorVal,
                   fog: false,
                   transparent: true,
-                  opacity: 0.85
+                  opacity: 0.85,
                 });
               } else {
                 const hexStr = colorVal.replace('#', '').toLowerCase();
@@ -200,7 +208,7 @@ function loadPodModel() {
   const loader = new GLTFLoader();
   loader.load(
     '/models/moby_dock.glb',
-    (gltf) => {
+    gltf => {
       podModel = gltf.scene;
       console.log('Successfully loaded custom Moby Dock model from Sketchfab!');
       // Refresh the graph's node 3D objects to display the loaded model
@@ -209,8 +217,10 @@ function loadPodModel() {
       }
     },
     undefined,
-    (error) => {
-      console.warn('Custom pod model "/models/moby_dock.glb" not found. Falling back to procedural Docker whale.');
+    _error => {
+      console.warn(
+        'Custom pod model "/models/moby_dock.glb" not found. Falling back to procedural Docker whale.'
+      );
     }
   );
 }
@@ -219,7 +229,7 @@ function loadDeploymentModel() {
   const loader = new GLTFLoader();
   loader.load(
     '/models/ship_3d_icon.glb',
-    (gltf) => {
+    gltf => {
       deploymentModel = gltf.scene;
       console.log('Successfully loaded custom Deployment model (ship_3d_icon.glb)!');
       // Refresh the graph's node 3D objects to display the loaded model
@@ -228,8 +238,10 @@ function loadDeploymentModel() {
       }
     },
     undefined,
-    (error) => {
-      console.warn('Custom deployment model "/models/ship_3d_icon.glb" not found. Falling back to procedural deployment cube.');
+    _error => {
+      console.warn(
+        'Custom deployment model "/models/ship_3d_icon.glb" not found. Falling back to procedural deployment cube.'
+      );
     }
   );
 }
@@ -241,7 +253,7 @@ function initUI() {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      
+
       tab.classList.add('active');
       const paneId = tab.dataset.tab;
       document.getElementById(paneId).classList.add('active');
@@ -254,10 +266,12 @@ function initUI() {
   mockBtn.addEventListener('click', () => loadMockData(true));
   loadBtn.addEventListener('click', () => loadData(true));
   closeInspectorBtn.addEventListener('click', closeInspector);
-  
+
   // Namespace quick actions
   document.getElementById('ns-all-btn').addEventListener('click', () => toggleAllNamespaces(true));
-  document.getElementById('ns-none-btn').addEventListener('click', () => toggleAllNamespaces(false));
+  document
+    .getElementById('ns-none-btn')
+    .addEventListener('click', () => toggleAllNamespaces(false));
 
   // Search input matching
   searchInput.addEventListener('input', handleSearch);
@@ -266,9 +280,11 @@ function initUI() {
   const uprightChk = document.getElementById('billboard-upright-chk');
   if (uprightChk) {
     uprightChk.checked = lockIconsUpright;
-    uprightChk.addEventListener('change', (e) => {
+    uprightChk.addEventListener('change', e => {
       lockIconsUpright = e.target.checked;
-      statusMessage.textContent = lockIconsUpright ? 'Upright (cylindrical) billboarding active.' : 'Screen-space (spherical) billboarding active.';
+      statusMessage.textContent = lockIconsUpright
+        ? 'Upright (cylindrical) billboarding active.'
+        : 'Screen-space (spherical) billboarding active.';
     });
   }
 
@@ -330,15 +346,17 @@ function initGraph() {
       // MeshBasicMaterial does not require scene lighting and is 100% bright,
       // and we set fog: false so they stay fully visible at any zoom distance!
       let colorVal = '#60a5fa'; // Bright blue default
-      if (highlightLinks.has(link)) colorVal = '#ffffff'; // White hot highlight
-      else if (link.protocol === 'grpc') colorVal = '#22d3ee'; // Electric cyan
+      if (highlightLinks.has(link))
+        colorVal = '#ffffff'; // White hot highlight
+      else if (link.protocol === 'grpc')
+        colorVal = '#22d3ee'; // Electric cyan
       else if (link.protocol === 'http') colorVal = '#fbbf24'; // Electric amber
-  
+
       const size = highlightLinks.has(link) ? 1.6 : 0.9;
       const geometry = new THREE.SphereGeometry(size, 8, 8);
       const material = new THREE.MeshBasicMaterial({
         color: colorVal,
-        fog: false
+        fog: false,
       });
       return new THREE.Mesh(geometry, material);
     })
@@ -365,9 +383,15 @@ function initGraph() {
   // Configure custom physics engine forces for object spacing
   Graph.d3Force('link').distance(link => {
     // Obtain source/target node references (either object or by finding in graphData)
-    const sourceNode = typeof link.source === 'object' ? link.source : Graph.graphData().nodes.find(n => n.id === link.source);
-    const targetNode = typeof link.target === 'object' ? link.target : Graph.graphData().nodes.find(n => n.id === link.target);
-    
+    const sourceNode =
+      typeof link.source === 'object'
+        ? link.source
+        : Graph.graphData().nodes.find(n => n.id === link.source);
+    const targetNode =
+      typeof link.target === 'object'
+        ? link.target
+        : Graph.graphData().nodes.find(n => n.id === link.target);
+
     if (!sourceNode || !targetNode) return 40;
 
     // Namespace containment links - space them out so objects sit outside the bounding boxes
@@ -404,9 +428,9 @@ function initGraph() {
   const particleGeometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   for (let i = 0; i < particleCount * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 1400;      // X
-    positions[i+1] = (Math.random() - 0.5) * 900 + 100; // Y (centered above grid)
-    positions[i+2] = (Math.random() - 0.5) * 1400;    // Z
+    positions[i] = (Math.random() - 0.5) * 1400; // X
+    positions[i + 1] = (Math.random() - 0.5) * 900 + 100; // Y (centered above grid)
+    positions[i + 2] = (Math.random() - 0.5) * 1400; // Z
   }
   particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
@@ -433,7 +457,7 @@ function initGraph() {
     map: createParticleTexture(),
     blending: THREE.AdditiveBlending,
     depthWrite: false,
-    sizeAttenuation: true
+    sizeAttenuation: true,
   });
   const digitalDust = new THREE.Points(particleGeometry, particleMaterial);
   scene.add(digitalDust);
@@ -468,7 +492,7 @@ function initGraph() {
           new THREE.Vector2(window.innerWidth, window.innerHeight),
           0.85, // softened bloom strength from 1.4 for a clean look
           0.35, // tighter radius to keep edges glowing but clean
-          0.15  // bloom threshold
+          0.15 // bloom threshold
         );
         composer.addPass(bloomPass);
         console.log('Cyberpunk UnrealBloomPass initialized successfully.');
@@ -512,16 +536,16 @@ function initGraph() {
 function createCogShape(innerRadius, outerRadius, teethCount) {
   const shape = new THREE.Shape();
   const toothAngle = (Math.PI * 2) / teethCount;
-  
+
   for (let i = 0; i < teethCount; i++) {
     const angle = i * toothAngle;
-    
+
     // Four coordinates per tooth to make a blocky, mechanical cog profile
     const a1 = angle - toothAngle * 0.25;
     const a2 = angle - toothAngle * 0.12;
     const a3 = angle + toothAngle * 0.12;
     const a4 = angle + toothAngle * 0.25;
-    
+
     const x1 = Math.cos(a1) * innerRadius;
     const y1 = Math.sin(a1) * innerRadius;
     const x2 = Math.cos(a2) * outerRadius;
@@ -530,7 +554,7 @@ function createCogShape(innerRadius, outerRadius, teethCount) {
     const y3 = Math.sin(a3) * outerRadius;
     const x4 = Math.cos(a4) * innerRadius;
     const y4 = Math.sin(a4) * innerRadius;
-    
+
     if (i === 0) {
       shape.moveTo(x1, y1);
     } else {
@@ -540,14 +564,14 @@ function createCogShape(innerRadius, outerRadius, teethCount) {
     shape.lineTo(x3, y3);
     shape.lineTo(x4, y4);
   }
-  
+
   shape.closePath();
-  
+
   // Cut a hollow axle hole in the center of the cog
   const holePath = new THREE.Path();
   holePath.absarc(0, 0, innerRadius * 0.45, 0, Math.PI * 2, true);
   shape.holes.push(holePath);
-  
+
   return shape;
 }
 
@@ -570,7 +594,7 @@ function createCustomNodeObject(node) {
   // Create shared material helpers
   const isHealthy = ['Running', 'Ready', 'Active'].includes(node.status);
   const isFailed = ['Failed', 'NotReady', 'Degraded'].includes(node.status);
-  
+
   let material;
   if (highlightNodes.has(node) || node === selectedNode) {
     material = new THREE.MeshPhongMaterial({
@@ -579,7 +603,7 @@ function createCustomNodeObject(node) {
       emissiveIntensity: 2.2, // Boosted glow for selected/highlighted nodes
       shininess: 50,
       transparent: true,
-      opacity: 1.0
+      opacity: 1.0,
     });
   } else if (isDimmed) {
     material = new THREE.MeshPhongMaterial({
@@ -588,17 +612,17 @@ function createCustomNodeObject(node) {
       emissiveIntensity: 0.1, // very low emissive when dimmed
       shininess: 5,
       transparent: true,
-      opacity: 0.15
+      opacity: 0.15,
     });
   } else {
     // Give all non-dimmed nodes a baseline self-luminous neon glow so they never get pitch-black
     let baseEmissiveColor = color;
     let baseEmissiveIntensity = 0.75; // baseline emissive for namespaces, config, deployments etc.
-    
+
     // Customize based on Pod or Service health status if applicable
     if (node.type === 'pod' || node.type === 'service') {
-      baseEmissiveColor = isHealthy ? color : (isFailed ? '#ef4444' : color);
-      baseEmissiveIntensity = isHealthy ? 1.0 : (isFailed ? 1.8 : 0.7);
+      baseEmissiveColor = isHealthy ? color : isFailed ? '#ef4444' : color;
+      baseEmissiveIntensity = isHealthy ? 1.0 : isFailed ? 1.8 : 0.7;
     }
 
     material = new THREE.MeshPhongMaterial({
@@ -607,7 +631,7 @@ function createCustomNodeObject(node) {
       emissiveIntensity: baseEmissiveIntensity,
       shininess: 30,
       transparent: true,
-      opacity: 0.90 // Slightly increased opacity from 0.85
+      opacity: 0.9, // Slightly increased opacity from 0.85
     });
   }
 
@@ -616,7 +640,7 @@ function createCustomNodeObject(node) {
     color: color,
     wireframe: true,
     transparent: true,
-    opacity: isDimmed ? 0.04 : 0.65
+    opacity: isDimmed ? 0.04 : 0.65,
   });
 
   // Build composite geometry based on resource type
@@ -627,7 +651,7 @@ function createCustomNodeObject(node) {
         const modelClone = podModel.clone();
 
         // Traverse the model to apply our theme-compliant materials
-        modelClone.traverse((child) => {
+        modelClone.traverse(child => {
           if (child.isMesh) {
             child.material = material;
           }
@@ -651,15 +675,15 @@ function createCustomNodeObject(node) {
 
         // 3. A single glowing cargo container box on the whale's back
         const boxGeo = new THREE.BoxGeometry(2.0, 1.4, 1.4);
-        const boxColor = isDimmed ? '#1e293b' : (isFailed ? '#ef4444' : '#22d3ee');
-        
+        const boxColor = isDimmed ? '#1e293b' : isFailed ? '#ef4444' : '#22d3ee';
+
         const boxMat = new THREE.MeshPhongMaterial({
           color: boxColor,
           emissive: isDimmed ? '#000000' : boxColor,
           emissiveIntensity: isDimmed ? 0 : 1.4,
           shininess: 40,
           transparent: true,
-          opacity: isDimmed ? 0.15 : 0.95
+          opacity: isDimmed ? 0.15 : 0.95,
         });
 
         const boxMesh = new THREE.Mesh(boxGeo, boxMat);
@@ -672,7 +696,7 @@ function createCustomNodeObject(node) {
             color: '#ffffff',
             wireframe: true,
             transparent: true,
-            opacity: 0.8
+            opacity: 0.8,
           });
           const wireMesh = new THREE.Mesh(boxGeo, wireMat);
           wireMesh.position.set(0, 2.5, 0);
@@ -701,15 +725,15 @@ function createCustomNodeObject(node) {
 
         // Fallback: 3. A single glowing cargo container box on the whale's back
         const boxGeo = new THREE.BoxGeometry(2.0, 1.4, 1.4);
-        const boxColor = isDimmed ? '#1e293b' : (isFailed ? '#ef4444' : '#22d3ee'); // bright neon cyan when healthy, red when failed
-        
+        const boxColor = isDimmed ? '#1e293b' : isFailed ? '#ef4444' : '#22d3ee'; // bright neon cyan when healthy, red when failed
+
         const boxMat = new THREE.MeshPhongMaterial({
           color: boxColor,
           emissive: isDimmed ? '#000000' : boxColor,
           emissiveIntensity: isDimmed ? 0 : 1.4,
           shininess: 40,
           transparent: true,
-          opacity: isDimmed ? 0.15 : 0.95
+          opacity: isDimmed ? 0.15 : 0.95,
         });
 
         const boxMesh = new THREE.Mesh(boxGeo, boxMat);
@@ -722,7 +746,7 @@ function createCustomNodeObject(node) {
             color: '#ffffff',
             wireframe: true,
             transparent: true,
-            opacity: 0.8
+            opacity: 0.8,
           });
           const wireMesh = new THREE.Mesh(boxGeo, wireMat);
           wireMesh.position.set(-0.2, 2.9, 0);
@@ -733,12 +757,12 @@ function createCustomNodeObject(node) {
       // Orthogonal rotating orbit rings if meshed (Istio)
       if (node.details?.meshed && !isDimmed) {
         const ringGeo = new THREE.TorusGeometry(6.2, 0.28, 6, 24); // scaled up slightly to orbit the whale body
-        const ringMat = new THREE.MeshBasicMaterial({ 
-          color: '#22d3ee', 
-          transparent: true, 
-          opacity: 0.75 
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: '#22d3ee',
+          transparent: true,
+          opacity: 0.75,
         });
-        
+
         const ring1 = new THREE.Mesh(ringGeo, ringMat);
         ring1.rotation.x = Math.PI / 2;
         group.add(ring1);
@@ -760,11 +784,11 @@ function createCustomNodeObject(node) {
         bevelSegments: 2,
         steps: 1,
         bevelSize: 0.22,
-        bevelThickness: 0.22
+        bevelThickness: 0.22,
       };
       const cogGeo = new THREE.ExtrudeGeometry(cogShape, extrudeSettings);
       cogGeo.center(); // Center the geometry around its local origin
-      
+
       const cogGroup = new THREE.Group();
 
       const cogMesh = new THREE.Mesh(cogGeo, material);
@@ -786,7 +810,7 @@ function createCustomNodeObject(node) {
     case 'statefulset': {
       // Stack of three database disk trays (represents persistent state)
       const diskGeo = new THREE.CylinderGeometry(3.5, 3.5, 1.2, 8);
-      
+
       const diskGroup = new THREE.Group();
 
       const disk1 = new THREE.Mesh(diskGeo, material);
@@ -814,7 +838,7 @@ function createCustomNodeObject(node) {
         const modelClone = deploymentModel.clone();
 
         // Traverse the model to apply our theme-compliant materials
-        modelClone.traverse((child) => {
+        modelClone.traverse(child => {
           if (child.isMesh) {
             child.material = material;
           }
@@ -917,7 +941,7 @@ function createCustomNodeObject(node) {
     case 'pvc': {
       // PVC: short wide cylinder representing a storage platter/volume
       const cylGeo = new THREE.CylinderGeometry(3.6, 3.6, 1.8, 16);
-      
+
       const pvcGroup = new THREE.Group();
 
       const cylMesh = new THREE.Mesh(cylGeo, material);
@@ -964,7 +988,7 @@ function createCustomNodeObject(node) {
         gapSize: 1.5,
         transparent: true,
         opacity: isDimmed ? 0.08 : 0.95,
-        linewidth: 2.5
+        linewidth: 2.5,
       });
       const lineMeshOuter = new THREE.LineSegments(edgesOuter, lineMatOuter);
       lineMeshOuter.computeLineDistances();
@@ -980,7 +1004,7 @@ function createCustomNodeObject(node) {
         gapSize: 1.2,
         transparent: true,
         opacity: isDimmed ? 0.04 : 0.65,
-        linewidth: 1.5
+        linewidth: 1.5,
       });
       const lineMeshInner = new THREE.LineSegments(edgesInner, lineMatInner);
       lineMeshInner.computeLineDistances();
@@ -993,7 +1017,7 @@ function createCustomNodeObject(node) {
         color: color,
         transparent: true,
         opacity: isDimmed ? 0.02 : 0.18,
-        wireframe: false
+        wireframe: false,
       });
       const coreMesh = new THREE.Mesh(coreGeo, coreMat);
       coreMesh.userData = { type: 'core' };
@@ -1005,7 +1029,7 @@ function createCustomNodeObject(node) {
       const coreWireMat = new THREE.LineBasicMaterial({
         color: color,
         transparent: true,
-        opacity: isDimmed ? 0.03 : 0.4
+        opacity: isDimmed ? 0.03 : 0.4,
       });
       const coreWireMesh = new THREE.LineSegments(coreWireEdges, coreWireMat);
       coreWireMesh.userData = { type: 'core-wire' };
@@ -1038,7 +1062,7 @@ function createCustomNodeObject(node) {
       // Wireframe outlines for styling consistency
       const headWire = new THREE.Mesh(headGeo, wireMaterial);
       headWire.position.copy(headMesh.position);
-      
+
       const torsoWire = new THREE.Mesh(torsoGeo, wireMaterial);
       torsoWire.position.copy(torsoMesh.position);
 
@@ -1061,7 +1085,20 @@ function createCustomNodeObject(node) {
   }
 
   // Apply billboarding to keep 3D workload/networking icons always pointing up/facing the camera
-  const billboardTypes = ['pod', 'service', 'serviceaccount', 'pvc', 'ingress', 'gateway', 'virtualservice', 'destinationrule', 'statefulset', 'deployment', 'replicaset', 'daemonset'];
+  const billboardTypes = [
+    'pod',
+    'service',
+    'serviceaccount',
+    'pvc',
+    'ingress',
+    'gateway',
+    'virtualservice',
+    'destinationrule',
+    'statefulset',
+    'deployment',
+    'replicaset',
+    'daemonset',
+  ];
   if (billboardTypes.includes(node.type)) {
     animatingMeshes.push({ mesh: group, billboard: true });
   }
@@ -1076,7 +1113,8 @@ function createCustomNodeObject(node) {
 async function loadData(forceReload = false) {
   statusMessage.textContent = 'Fetching cluster-graph.json...';
   try {
-    const response = await fetch('/cluster-graph.json');
+    const url = forceReload ? `/cluster-graph.json?t=${Date.now()}` : '/cluster-graph.json';
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('File not found');
     }
@@ -1084,15 +1122,18 @@ async function loadData(forceReload = false) {
     if (!data.nodes || data.nodes.length === 0) {
       throw new Error('Graph data is empty');
     }
-    
+
     graphData = data;
     dataSourceIndicator.textContent = 'Live Cluster';
     dataSourceIndicator.className = 'badge live';
     statusMessage.textContent = `Loaded ${graphData.nodes.length} nodes from cluster-graph.json.`;
-    
+
     processLoadedData();
   } catch (error) {
-    console.warn('Failed to load live cluster-graph.json. Generating interactive mock data...', error);
+    console.warn(
+      'Failed to load live cluster-graph.json. Generating interactive mock data...',
+      error
+    );
     loadMockData(false);
   }
 }
@@ -1113,7 +1154,7 @@ function processLoadedData() {
 
   // Render filter lists
   renderFilters(Array.from(namespaces).sort(), Array.from(types).sort());
-  
+
   // Apply filtering
   applyFilters();
 }
@@ -1126,7 +1167,7 @@ function renderFilters(namespaces, types) {
   } else {
     namespaces.forEach(ns => {
       const count = graphData.nodes.filter(n => n.namespace === ns).length;
-      
+
       const div = document.createElement('label');
       div.className = 'checkbox-item';
       div.innerHTML = `
@@ -1134,7 +1175,7 @@ function renderFilters(namespaces, types) {
         <span class="label">${ns}</span>
         <span class="badge">${count}</span>
       `;
-      div.querySelector('input').addEventListener('change', (e) => {
+      div.querySelector('input').addEventListener('change', e => {
         if (e.target.checked) {
           activeFilters.namespaces.add(ns);
         } else {
@@ -1151,7 +1192,7 @@ function renderFilters(namespaces, types) {
   types.forEach(type => {
     const count = graphData.nodes.filter(n => n.type === type).length;
     const config = resourceConfig[type] || { color: '#fff', name: type };
-    
+
     const div = document.createElement('label');
     div.className = 'checkbox-item';
     div.innerHTML = `
@@ -1160,7 +1201,7 @@ function renderFilters(namespaces, types) {
       <span class="label">${config.name}</span>
       <span class="badge">${count}</span>
     `;
-    div.querySelector('input').addEventListener('change', (e) => {
+    div.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) {
         activeFilters.types.add(type);
       } else {
@@ -1206,7 +1247,7 @@ function applyFilters() {
 
   filteredData = {
     nodes: filteredNodes,
-    links: filteredLinks
+    links: filteredLinks,
   };
 
   // Update statistics
@@ -1248,8 +1289,8 @@ function handleNodeHover(node) {
       // Trigger link updates to restore normal links
       if (Graph) {
         Graph.linkWidth(Graph.linkWidth())
-             .linkOpacity(Graph.linkOpacity())
-             .linkDirectionalParticles(Graph.linkDirectionalParticles());
+          .linkOpacity(Graph.linkOpacity())
+          .linkDirectionalParticles(Graph.linkDirectionalParticles());
       }
     }
     return;
@@ -1261,14 +1302,14 @@ function handleNodeHover(node) {
 
   if (node) {
     highlightNodes.add(node);
-    
+
     // Find connected links and nodes
     filteredData.links.forEach(link => {
       const source = link.source;
       const target = link.target;
       const sourceId = typeof source === 'object' ? source.id : source;
       const targetId = typeof target === 'object' ? target.id : target;
-      
+
       if (sourceId === node.id) {
         highlightLinks.add(link);
         // Find node matching target
@@ -1287,8 +1328,8 @@ function handleNodeHover(node) {
   // Trigger link updates
   if (Graph) {
     Graph.linkWidth(Graph.linkWidth())
-         .linkOpacity(Graph.linkOpacity())
-         .linkDirectionalParticles(Graph.linkDirectionalParticles());
+      .linkOpacity(Graph.linkOpacity())
+      .linkDirectionalParticles(Graph.linkDirectionalParticles());
   }
 }
 
@@ -1304,16 +1345,16 @@ function handleNodeClick(node) {
 
   // Focus camera on node (Fly to it)
   const distance = 80;
-  const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-  
+  const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+
   if (Graph) {
     Graph.cameraPosition(
       { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
       node, // lookAt
-      2000  // transition ms
+      2000 // transition ms
     );
   }
-  
+
   // Update node rendering to highlight clicked node without rebuilding meshes
   updateNodeVisualStates();
 }
@@ -1329,7 +1370,7 @@ function updateNodeVisualStates() {
 
     const isDimmed = hasHighlights && !highlightNodes.has(node);
     const isHighlighted = highlightNodes.has(node);
-    const isSelected = (node === selectedNode);
+    const isSelected = node === selectedNode;
 
     group.traverse(child => {
       if (child.isMesh || child.isLineSegments || child.isLine || child.isPoints) {
@@ -1337,10 +1378,18 @@ function updateNodeVisualStates() {
           // Cache original values on material if not already present
           if (!child.material.userData) child.material.userData = {};
           if (child.material.userData.originalColor === undefined) {
-            child.material.userData.originalColor = child.material.color ? child.material.color.clone() : null;
-            child.material.userData.originalEmissive = child.material.emissive ? child.material.emissive.clone() : null;
-            child.material.userData.originalEmissiveIntensity = child.material.emissiveIntensity !== undefined ? child.material.emissiveIntensity : 0.75;
-            child.material.userData.originalOpacity = child.material.opacity !== undefined ? child.material.opacity : 1.0;
+            child.material.userData.originalColor = child.material.color
+              ? child.material.color.clone()
+              : null;
+            child.material.userData.originalEmissive = child.material.emissive
+              ? child.material.emissive.clone()
+              : null;
+            child.material.userData.originalEmissiveIntensity =
+              child.material.emissiveIntensity !== undefined
+                ? child.material.emissiveIntensity
+                : 0.75;
+            child.material.userData.originalOpacity =
+              child.material.opacity !== undefined ? child.material.opacity : 1.0;
           }
 
           const orig = child.material.userData;
@@ -1378,7 +1427,7 @@ function updateNodeVisualStates() {
             if (child.material.emissive && orig.originalEmissive) {
               child.material.emissive.copy(orig.originalEmissive);
             }
-            
+
             // Adjust opacity for highlights
             if (child.userData?.type === 'dashed-outer') {
               child.material.opacity = 0.95;
@@ -1389,7 +1438,8 @@ function updateNodeVisualStates() {
             } else if (child.userData?.type === 'core-wire') {
               child.material.opacity = 0.6;
             } else {
-              child.material.opacity = orig.originalOpacity < 0.5 ? Math.min(0.5, orig.originalOpacity * 1.2) : 1.0;
+              child.material.opacity =
+                orig.originalOpacity < 0.5 ? Math.min(0.5, orig.originalOpacity * 1.2) : 1.0;
             }
 
             if (child.material.emissiveIntensity !== undefined) {
@@ -1429,15 +1479,15 @@ function openInspector(node) {
   badge.textContent = node.type;
   badge.style.backgroundColor = resourceConfig[node.type]?.color || '#94a3b8';
   badge.style.color = '#fff';
-  
+
   name.textContent = node.name;
   namespace.textContent = node.namespace ? `Namespace: ${node.namespace}` : 'Cluster-Scoped';
 
   // Fill Status
   const isHealthy = ['Running', 'Ready', 'Active'].includes(node.status);
   const isFailed = ['Failed', 'NotReady', 'Degraded'].includes(node.status);
-  
-  statusDot.className = 'status-dot ' + (isHealthy ? 'green' : (isFailed ? 'red' : 'yellow'));
+
+  statusDot.className = 'status-dot ' + (isHealthy ? 'green' : isFailed ? 'red' : 'yellow');
   statusText.textContent = node.status || 'Active';
 
   // Fill Labels
@@ -1453,7 +1503,7 @@ function openInspector(node) {
       labelsContainer.appendChild(span);
     });
   }
-  
+
   // If pod is meshed, add Istio special tag
   if (node.type === 'pod' && node.details?.meshed) {
     const span = document.createElement('span');
@@ -1465,11 +1515,11 @@ function openInspector(node) {
   // Fill Properties
   propertiesTable.innerHTML = '';
   const details = node.details || {};
-  
+
   // Add common fields
   addPropertyRow(propertiesTable, 'Resource ID', node.id);
   addPropertyRow(propertiesTable, 'Status', node.status || 'Active');
-  
+
   Object.keys(details).forEach(key => {
     let val = details[key];
     if (Array.isArray(val)) {
@@ -1477,7 +1527,7 @@ function openInspector(node) {
     } else if (typeof val === 'object') {
       val = JSON.stringify(val);
     }
-    
+
     // Format camelCase keys into spaces
     const labelKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
     addPropertyRow(propertiesTable, labelKey, val);
@@ -1491,7 +1541,7 @@ function openInspector(node) {
   filteredData.links.forEach(link => {
     const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
     const targetId = typeof link.target === 'object' ? link.target.id : link.target;
-    
+
     if (sourceId === node.id) {
       // Outbound connection
       const targetNode = filteredData.nodes.find(n => n.id === targetId);
@@ -1500,7 +1550,7 @@ function openInspector(node) {
           node: targetNode,
           type: 'outbound',
           relation: link.type,
-          protocol: link.protocol
+          protocol: link.protocol,
         });
       }
     } else if (targetId === node.id) {
@@ -1511,14 +1561,15 @@ function openInspector(node) {
           node: sourceNode,
           type: 'inbound',
           relation: link.type,
-          protocol: link.protocol
+          protocol: link.protocol,
         });
       }
     }
   });
 
   if (connections.length === 0) {
-    connectionsList.innerHTML = '<li class="placeholder-text">No connected nodes found in current filters.</li>';
+    connectionsList.innerHTML =
+      '<li class="placeholder-text">No connected nodes found in current filters.</li>';
   } else {
     connections.forEach(conn => {
       const li = document.createElement('li');
@@ -1526,7 +1577,7 @@ function openInspector(node) {
       const arrow = conn.type === 'outbound' ? '➔' : '🠠';
       const proto = conn.protocol ? ` (${conn.protocol.toUpperCase()})` : '';
       const badgeColor = resourceConfig[conn.node.type]?.color || '#94a3b8';
-      
+
       li.innerHTML = `
         <div class="conn-name">
           <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:${badgeColor}; margin-right:6px"></span>
@@ -1577,14 +1628,14 @@ function toggleOrbit() {
     orbitBtn.classList.add('active');
     orbitBtn.textContent = 'Orbit On';
     statusMessage.textContent = 'Auto orbiting camera active.';
-    
+
     // Rotate camera around node center
     const distance = 350;
     orbitInterval = setInterval(() => {
       angle += 0.003;
       Graph.cameraPosition({
         x: distance * Math.sin(angle),
-        z: distance * Math.cos(angle)
+        z: distance * Math.cos(angle),
       });
     }, 10);
   } else {
@@ -1606,8 +1657,8 @@ function handleSearch(e) {
     updateNodeVisualStates();
     if (Graph) {
       Graph.linkWidth(Graph.linkWidth())
-           .linkOpacity(Graph.linkOpacity())
-           .linkDirectionalParticles(Graph.linkDirectionalParticles());
+        .linkOpacity(Graph.linkOpacity())
+        .linkDirectionalParticles(Graph.linkDirectionalParticles());
     }
     return;
   }
@@ -1617,34 +1668,30 @@ function handleSearch(e) {
     const matchName = node.name.toLowerCase().includes(query);
     const matchType = node.type.toLowerCase().includes(query);
     const matchNs = node.namespace && node.namespace.toLowerCase().includes(query);
-    const matchLabels = Object.entries(node.labels || {}).some(([k, v]) => 
-      k.toLowerCase().includes(query) || v.toLowerCase().includes(query)
+    const matchLabels = Object.entries(node.labels || {}).some(
+      ([k, v]) => k.toLowerCase().includes(query) || v.toLowerCase().includes(query)
     );
     return matchName || matchType || matchNs || matchLabels;
   });
 
   highlightNodes.clear();
   highlightLinks.clear();
-  
+
   matches.forEach(node => highlightNodes.add(node));
   updateNodeVisualStates();
   if (Graph) {
     Graph.linkWidth(Graph.linkWidth())
-         .linkOpacity(Graph.linkOpacity())
-         .linkDirectionalParticles(Graph.linkDirectionalParticles());
+      .linkOpacity(Graph.linkOpacity())
+      .linkDirectionalParticles(Graph.linkDirectionalParticles());
   }
 
   if (matches.length === 1) {
     // If exact one match, focus camera on it!
     const target = matches[0];
-    Graph.cameraPosition(
-      { x: target.x * 1.5, y: target.y * 1.5, z: target.z * 1.5 },
-      target,
-      1500
-    );
+    Graph.cameraPosition({ x: target.x * 1.5, y: target.y * 1.5, z: target.z * 1.5 }, target, 1500);
     openInspector(target);
   }
-  
+
   statusMessage.textContent = `Found ${matches.length} matching resources.`;
 }
 
@@ -1661,17 +1708,38 @@ function loadMockData(verbose = false) {
   const links = [];
 
   // Helper to push node
-  const addNode = (n) => nodes.push(n);
-  const addLink = (l) => links.push(l);
+  const addNode = n => nodes.push(n);
+  const addLink = l => links.push(l);
 
   // 1. Cluster Physical Hosts (Nodes)
-  addNode({ id: 'node/aks-nodepool-1', name: 'aks-nodepool-1', type: 'node', status: 'Ready', labels: { 'agentpool': 'main', 'kubernetes.io/os': 'linux' }, details: { internalIP: '10.240.0.4', cpu: '8', memory: '32Gi' } });
-  addNode({ id: 'node/aks-nodepool-2', name: 'aks-nodepool-2', type: 'node', status: 'Ready', labels: { 'agentpool': 'main', 'kubernetes.io/os': 'linux' }, details: { internalIP: '10.240.0.5', cpu: '8', memory: '32Gi' } });
+  addNode({
+    id: 'node/aks-nodepool-1',
+    name: 'aks-nodepool-1',
+    type: 'node',
+    status: 'Ready',
+    labels: { agentpool: 'main', 'kubernetes.io/os': 'linux' },
+    details: { internalIP: '10.240.0.4', cpu: '8', memory: '32Gi' },
+  });
+  addNode({
+    id: 'node/aks-nodepool-2',
+    name: 'aks-nodepool-2',
+    type: 'node',
+    status: 'Ready',
+    labels: { agentpool: 'main', 'kubernetes.io/os': 'linux' },
+    details: { internalIP: '10.240.0.5', cpu: '8', memory: '32Gi' },
+  });
 
   // 2. Namespaces
   const nss = ['kube-system', 'istio-system', 'default', 'dev', 'prod'];
   nss.forEach(ns => {
-    addNode({ id: `namespace/${ns}`, name: ns, type: 'namespace', status: 'Active', labels: {}, details: {} });
+    addNode({
+      id: `namespace/${ns}`,
+      name: ns,
+      type: 'namespace',
+      status: 'Active',
+      labels: {},
+      details: {},
+    });
   });
 
   // Helper for generating standard microservices stack in a namespace
@@ -1688,7 +1756,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: { app: `${prefix}-ingress` },
-      details: { servers: ['80/HTTP (*)', '443/HTTPS (*)'] }
+      details: { servers: ['80/HTTP (*)', '443/HTTPS (*)'] },
     });
     addLink({ source: `namespace/${ns}`, target: gwId, type: 'contains' });
 
@@ -1701,7 +1769,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: {},
-      details: { hosts: [`${prefix}.mycompany.com`], gateways: [`${prefix}-gateway`] }
+      details: { hosts: [`${prefix}.mycompany.com`], gateways: [`${prefix}-gateway`] },
     });
     addLink({ source: `namespace/${ns}`, target: vsId, type: 'contains' });
     addLink({ source: gwId, target: vsId, type: 'routes-to', protocol: 'http' });
@@ -1715,7 +1783,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: { app: `${prefix}-frontend` },
-      details: { serviceType: 'ClusterIP', clusterIP: '10.0.124.12', ports: ['80/TCP (http)'] }
+      details: { serviceType: 'ClusterIP', clusterIP: '10.0.124.12', ports: ['80/TCP (http)'] },
     });
     addLink({ source: `namespace/${ns}`, target: frontSvcId, type: 'contains' });
     addLink({ source: vsId, target: frontSvcId, type: 'routes-to', protocol: 'http' });
@@ -1729,7 +1797,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: healthy ? 'Running' : 'Degraded',
       labels: { app: `${prefix}-frontend` },
-      details: { replicas: `${replicaCount}/${replicaCount}` }
+      details: { replicas: `${replicaCount}/${replicaCount}` },
     });
     addLink({ source: `namespace/${ns}`, target: frontDepId, type: 'contains' });
 
@@ -1742,7 +1810,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Running',
       labels: { app: `${prefix}-frontend`, 'pod-template-hash': 'xyz56' },
-      details: { replicas: `${replicaCount}/${replicaCount}` }
+      details: { replicas: `${replicaCount}/${replicaCount}` },
     });
     addLink({ source: `namespace/${ns}`, target: frontRsId, type: 'contains' });
     addLink({ source: frontDepId, target: frontRsId, type: 'manages' });
@@ -1756,7 +1824,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: { app: prefix },
-      details: { secrets: [`default-token-${prefix}`] }
+      details: { secrets: [`default-token-${prefix}`] },
     });
     addLink({ source: `namespace/${ns}`, target: saId, type: 'contains' });
 
@@ -1764,7 +1832,7 @@ function loadMockData(verbose = false) {
     for (let i = 0; i < replicaCount; i++) {
       const podId = `pod/${ns}/${prefix}-frontend-xyz56-p${i}`;
       const physicalHost = `node/aks-nodepool-${(i % 2) + 1}`;
-      
+
       addNode({
         id: podId,
         name: `${prefix}-frontend-xyz56-p${i}`,
@@ -1772,7 +1840,11 @@ function loadMockData(verbose = false) {
         namespace: ns,
         status: podStatus,
         labels: { app: `${prefix}-frontend`, env: ns },
-        details: { podIP: `10.244.1.${10 + i}`, nodeName: physicalHost.split('/')[1], meshed: true }
+        details: {
+          podIP: `10.244.1.${10 + i}`,
+          nodeName: physicalHost.split('/')[1],
+          meshed: true,
+        },
       });
       addLink({ source: `namespace/${ns}`, target: podId, type: 'contains' });
       addLink({ source: frontRsId, target: podId, type: 'manages' });
@@ -1790,17 +1862,17 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: { app: `${prefix}-backend` },
-      details: { serviceType: 'ClusterIP', clusterIP: '10.0.124.15', ports: ['9000/TCP (grpc)'] }
+      details: { serviceType: 'ClusterIP', clusterIP: '10.0.124.15', ports: ['9000/TCP (grpc)'] },
     });
     addLink({ source: `namespace/${ns}`, target: backSvcId, type: 'contains' });
-    
+
     // Connect Frontend Pods to Backend Service (gRPC protocol)
     for (let i = 0; i < replicaCount; i++) {
       addLink({
         source: `pod/${ns}/${prefix}-frontend-xyz56-p${i}`,
         target: backSvcId,
         type: 'routes-to',
-        protocol: 'grpc'
+        protocol: 'grpc',
       });
     }
 
@@ -1813,7 +1885,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Running',
       labels: { app: `${prefix}-backend` },
-      details: { replicas: '2/2', serviceName: `${prefix}-backend` }
+      details: { replicas: '2/2', serviceName: `${prefix}-backend` },
     });
     addLink({ source: `namespace/${ns}`, target: backStsId, type: 'contains' });
     addLink({ source: backStsId, target: backSvcId, type: 'routes-to' });
@@ -1827,7 +1899,12 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Bound',
       labels: { app: `${prefix}-backend` },
-      details: { volumeName: `pvc-vol-${prefix}`, storageClass: 'managed-premium', capacity: '10Gi', status: 'Bound' }
+      details: {
+        volumeName: `pvc-vol-${prefix}`,
+        storageClass: 'managed-premium',
+        capacity: '10Gi',
+        status: 'Bound',
+      },
     });
     addLink({ source: `namespace/${ns}`, target: pvcId, type: 'contains' });
 
@@ -1835,7 +1912,7 @@ function loadMockData(verbose = false) {
     for (let i = 0; i < 2; i++) {
       const podId = `pod/${ns}/${prefix}-backend-${i}`;
       const physicalHost = `node/aks-nodepool-${((i + 1) % 2) + 1}`;
-      
+
       addNode({
         id: podId,
         name: `${prefix}-backend-${i}`,
@@ -1843,7 +1920,11 @@ function loadMockData(verbose = false) {
         namespace: ns,
         status: 'Running',
         labels: { app: `${prefix}-backend`, env: ns },
-        details: { podIP: `10.244.2.${20 + i}`, nodeName: physicalHost.split('/')[1], meshed: true }
+        details: {
+          podIP: `10.244.2.${20 + i}`,
+          nodeName: physicalHost.split('/')[1],
+          meshed: true,
+        },
       });
       addLink({ source: `namespace/${ns}`, target: podId, type: 'contains' });
       addLink({ source: backStsId, target: podId, type: 'manages' });
@@ -1862,7 +1943,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: {},
-      details: { host: `${prefix}-backend`, subsets: ['v1'], trafficPolicy: 'LEAST_CONN' }
+      details: { host: `${prefix}-backend`, subsets: ['v1'], trafficPolicy: 'LEAST_CONN' },
     });
     addLink({ source: `namespace/${ns}`, target: drId, type: 'contains' });
     addLink({ source: drId, target: backSvcId, type: 'configures' });
@@ -1876,7 +1957,7 @@ function loadMockData(verbose = false) {
       namespace: ns,
       status: 'Active',
       labels: {},
-      details: { mtlsMode: 'STRICT' }
+      details: { mtlsMode: 'STRICT' },
     });
     addLink({ source: paId, target: `namespace/${ns}`, type: 'secures' });
   }
@@ -1893,9 +1974,13 @@ function loadMockData(verbose = false) {
     namespace: 'kube-system',
     status: 'Active',
     labels: { 'k8s-app': 'kube-dns' },
-    details: { serviceType: 'ClusterIP', clusterIP: '10.0.0.10', ports: ['53/UDP', '53/TCP'] }
+    details: { serviceType: 'ClusterIP', clusterIP: '10.0.0.10', ports: ['53/UDP', '53/TCP'] },
   });
-  addLink({ source: 'namespace/kube-system', target: 'service/kube-system/kube-dns', type: 'contains' });
+  addLink({
+    source: 'namespace/kube-system',
+    target: 'service/kube-system/kube-dns',
+    type: 'contains',
+  });
 
   // Add core system pods
   for (let i = 1; i <= 2; i++) {
@@ -1907,11 +1992,16 @@ function loadMockData(verbose = false) {
       namespace: 'kube-system',
       status: 'Running',
       labels: { 'k8s-app': 'kube-dns' },
-      details: { podIP: `10.244.0.${2 + i}`, nodeName: `aks-nodepool-${i}`, meshed: false }
+      details: { podIP: `10.244.0.${2 + i}`, nodeName: `aks-nodepool-${i}`, meshed: false },
     });
     addLink({ source: 'namespace/kube-system', target: podId, type: 'contains' });
     addLink({ source: `node/aks-nodepool-${i}`, target: podId, type: 'hosts' });
-    addLink({ source: 'service/kube-system/kube-dns', target: podId, type: 'routes-to', protocol: 'tcp' });
+    addLink({
+      source: 'service/kube-system/kube-dns',
+      target: podId,
+      type: 'routes-to',
+      protocol: 'tcp',
+    });
   }
 
   graphData = { nodes, links };

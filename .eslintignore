@@ -1,0 +1,6 @@
+node_modules/
+dist/
+dashboard/dist/
+dashboard/node_modules/
+cluster-graph.json
+dashboard/cluster-graph.json

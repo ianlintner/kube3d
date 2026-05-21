@@ -2,8 +2,9 @@
    Design System & Custom Properties
    ========================================================================== */
 :root {
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  --font-sans:
+    'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
 
   /* Colors */
   --bg-primary: #000000;
@@ -13,13 +14,13 @@
   --text-primary: #f8fafc;
   --text-muted: #94a3b8;
   --text-dark: #0f172a;
-  
+
   /* Glowing / Accent Colors */
   --accent-glow: rgba(99, 102, 241, 0.15);
   --border-glow: rgba(99, 102, 241, 0.2);
   --primary-accent: #6366f1; /* Indigo */
   --primary-accent-hover: #4f46e5;
-  
+
   /* Status Colors */
   --status-success: #10b981;
   --status-warning: #f59e0b;
@@ -28,21 +29,21 @@
   --status-unknown: #64748b;
 
   /* Resource Node Types & Colors */
-  --color-namespace: #f43f5e;       /* Rose */
-  --color-node: #64748b;            /* Slate */
-  --color-pod: #2496ed;             /* Docker Blue */
-  --color-service: #ff6b00;         /* Orange */
-  --color-deployment: #8b5cf6;      /* Violet */
-  --color-replicaset: #a78bfa;      /* Light Purple */
-  --color-statefulset: #f59e0b;     /* Amber */
-  --color-daemonset: #ec4899;       /* Pink */
-  --color-ingress: #eab308;         /* Yellow */
-  --color-gateway: #ef4444;         /* Red */
-  --color-virtualservice: #06b6d4;  /* Cyan */
+  --color-namespace: #f43f5e; /* Rose */
+  --color-node: #64748b; /* Slate */
+  --color-pod: #2496ed; /* Docker Blue */
+  --color-service: #ff6b00; /* Orange */
+  --color-deployment: #8b5cf6; /* Violet */
+  --color-replicaset: #a78bfa; /* Light Purple */
+  --color-statefulset: #f59e0b; /* Amber */
+  --color-daemonset: #ec4899; /* Pink */
+  --color-ingress: #eab308; /* Yellow */
+  --color-gateway: #ef4444; /* Red */
+  --color-virtualservice: #06b6d4; /* Cyan */
   --color-destinationrule: #14b8a6; /* Teal */
-  --color-serviceaccount: #d946ef;  /* Fuchsia */
-  --color-pvc: #10b981;             /* Emerald Green */
-  
+  --color-serviceaccount: #d946ef; /* Fuchsia */
+  --color-pvc: #10b981; /* Emerald Green */
+
   /* Spacing & Borders */
   --radius-lg: 16px;
   --radius-md: 10px;
@@ -377,7 +378,7 @@ body {
 }
 
 .checkbox-item input:checked::before {
-  content: "";
+  content: '';
   width: 8px;
   height: 8px;
   transform: scale(1);
@@ -524,11 +525,25 @@ body {
   border-radius: 50%;
 }
 
-.status-dot.green { background-color: var(--status-success); box-shadow: 0 0 6px var(--status-success); }
-.status-dot.yellow { background-color: var(--status-warning); box-shadow: 0 0 6px var(--status-warning); }
-.status-dot.red { background-color: var(--status-error); box-shadow: 0 0 6px var(--status-error); }
-.status-dot.blue { background-color: var(--status-info); box-shadow: 0 0 6px var(--status-info); }
-.status-dot.gray { background-color: var(--status-unknown); }
+.status-dot.green {
+  background-color: var(--status-success);
+  box-shadow: 0 0 6px var(--status-success);
+}
+.status-dot.yellow {
+  background-color: var(--status-warning);
+  box-shadow: 0 0 6px var(--status-warning);
+}
+.status-dot.red {
+  background-color: var(--status-error);
+  box-shadow: 0 0 6px var(--status-error);
+}
+.status-dot.blue {
+  background-color: var(--status-info);
+  box-shadow: 0 0 6px var(--status-info);
+}
+.status-dot.gray {
+  background-color: var(--status-unknown);
+}
 
 /* Tabs */
 .tab-container {
@@ -800,11 +815,19 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.95) 100%),
     linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.04), rgba(34, 211, 238, 0.01), rgba(99, 102, 241, 0.04));
-  background-size: 100% 100%, 100% 4px, 6px 100%;
+    linear-gradient(
+      90deg,
+      rgba(99, 102, 241, 0.04),
+      rgba(34, 211, 238, 0.01),
+      rgba(99, 102, 241, 0.04)
+    );
+  background-size:
+    100% 100%,
+    100% 4px,
+    6px 100%;
   z-index: 2; /* Sits above the 3D graph (z-index 1) but below the glass panels (z-index 10) */
   pointer-events: none !important;
   opacity: 0.65;
