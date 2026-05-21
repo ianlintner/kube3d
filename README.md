@@ -5,7 +5,7 @@ Kube3D is a premium, interactive **3D force-directed graph visualizer** for Kube
 ---
 
 ## Live Demo
-[Kube3D Live Web Demo](ianlintner.github.io/kube3d/)
+[Kube3D Live Web Demo](https://ianlintner.github.io/kube3d/)
 
 ## 📺 Interactive Video Demo
 
