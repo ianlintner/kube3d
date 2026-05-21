@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes 3D Cluster Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <!-- Full-Screen 3D Canvas -->
+  <div id="graph-3d"></div>
+
+  <!-- Glassmorphic Header -->
+  <header class="glass-panel main-header">
+    <div class="logo-area">
+      <div class="logo-dot pulse"></div>
+      <h1>Kube3D <span class="subtitle">Explorer</span></h1>
+    </div>
+    <div class="search-area">
+      <input type="text" id="search-input" placeholder="Search resource name, label, type..." autocomplete="off">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="actions-area">
+      <button id="orbit-btn" class="action-btn" title="Toggle Auto Orbit">Orbit Off</button>
+      <button id="reset-btn" class="action-btn" title="Reset Camera View">Reset Cam</button>
+      <button id="mock-btn" class="action-btn secondary-btn" title="Load Mock Cluster Data">Load Demo</button>
+      <button id="load-btn" class="action-btn primary-btn" title="Reload live cluster-graph.json">Fetch Live</button>
+    </div>
+  </header>
+
+  <!-- Left Sidebar (Filters and Legend) -->
+  <aside class="glass-panel left-panel">
+    <section class="panel-section">
+      <h3>📈 Cluster Summary</h3>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-label">Nodes</span><span id="stat-nodes" class="stat-val">0</span></div>
+        <div class="stat-card"><span class="stat-label">Links</span><span id="stat-links" class="stat-val">0</span></div>
+        <div class="stat-card"><span class="stat-label">Namespaces</span><span id="stat-namespaces" class="stat-val">0</span></div>
+        <div class="stat-card"><span class="stat-label">Pods</span><span id="stat-pods" class="stat-val">0</span></div>
+      </div>
+    </section>
+
+    <section class="panel-section scrollable">
+      <h3>🏷️ Namespaces</h3>
+      <div class="filter-actions">
+        <button id="ns-all-btn" class="text-btn">Select All</button>
+        <button id="ns-none-btn" class="text-btn">Clear All</button>
+      </div>
+      <div id="namespace-filters" class="checkbox-list">
+        <!-- Dynically populated -->
+        <p class="placeholder-text">No namespaces found.</p>
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h3>⚙️ Resource Types</h3>
+      <div id="type-filters" class="checkbox-list">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h3>⚙️ Visual Settings</h3>
+      <div class="checkbox-list">
+        <label class="checkbox-item">
+          <input type="checkbox" id="billboard-upright-chk" checked>
+          <span class="label">Lock Icons Upright</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel-section">
+      <h3>🎨 Legend</h3>
+      <div id="legend-list" class="legend-list">
+        <!-- Dynamically populated -->
+      </div>
+    </section>
+  </aside>
+
+  <!-- Right Sidebar (Metadata Inspector) -->
+  <aside id="inspector-panel" class="glass-panel right-panel closed">
+    <button id="close-inspector" class="close-btn">&times;</button>
+    
+    <div class="inspector-header">
+      <div id="inspect-type-badge" class="type-badge">POD</div>
+      <h2 id="inspect-name">Select a node to inspect</h2>
+      <div id="inspect-namespace" class="meta-subtitle">Namespace: default</div>
+    </div>
+
+    <div class="inspector-content">
+      <div class="status-indicator-bar">
+        <span class="status-dot green" id="inspect-status-dot"></span>
+        <span id="inspect-status-text" class="status-text">Running</span>
+      </div>
+
+      <div class="tab-container">
+        <button class="tab-btn active" data-tab="tab-overview">Overview</button>
+        <button class="tab-btn" data-tab="tab-details">YAML/JSON</button>
+      </div>
+
+      <div id="tab-overview" class="tab-pane active">
+        <div class="inspect-field">
+          <h4>Labels</h4>
+          <div id="inspect-labels" class="tag-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <div class="inspect-field">
+          <h4>Metadata Properties</h4>
+          <table class="properties-table">
+            <tbody id="inspect-properties">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="inspect-field">
+          <h4>Connected Relationships</h4>
+          <ul id="inspect-connections" class="connection-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+      </div>
+
+      <div id="tab-details" class="tab-pane">
+        <pre class="json-code"><code id="inspect-json-code">{}</code></pre>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Global Tooltip/Status Bar -->
+  <footer class="glass-panel footer-status">
+    <div id="status-message">Ready. Double-click a node to focus camera. Left-click to inspect.</div>
+    <div id="data-source-indicator" class="badge">No cluster-graph.json loaded</div>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
