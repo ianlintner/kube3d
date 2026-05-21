@@ -28,8 +28,8 @@ let orbitInterval = null;
 const searchInput = document.getElementById('search-input');
 const orbitBtn = document.getElementById('orbit-btn');
 const resetBtn = document.getElementById('reset-btn');
-const mockBtn = document.getElementById('mock-btn');
-const loadBtn = document.getElementById('load-btn');
+const datasetSelect = document.getElementById('dataset-select');
+const refreshBtn = document.getElementById('refresh-btn');
 const inspector = document.getElementById('inspector-panel');
 const closeInspectorBtn = document.getElementById('close-inspector');
 const namespaceFiltersContainer = document.getElementById('namespace-filters');
@@ -207,7 +207,7 @@ window.addEventListener('DOMContentLoaded', () => {
 function loadPodModel() {
   const loader = new GLTFLoader();
   loader.load(
-    '/models/moby_dock.glb',
+    'models/moby_dock.glb',
     gltf => {
       podModel = gltf.scene;
       console.log('Successfully loaded custom Moby Dock model from Sketchfab!');
@@ -219,7 +219,7 @@ function loadPodModel() {
     undefined,
     _error => {
       console.warn(
-        'Custom pod model "/models/moby_dock.glb" not found. Falling back to procedural Docker whale.'
+        'Custom pod model "models/moby_dock.glb" not found. Falling back to procedural Docker whale.'
       );
     }
   );
@@ -228,7 +228,7 @@ function loadPodModel() {
 function loadDeploymentModel() {
   const loader = new GLTFLoader();
   loader.load(
-    '/models/ship_3d_icon.glb',
+    'models/ship_3d_icon.glb',
     gltf => {
       deploymentModel = gltf.scene;
       console.log('Successfully loaded custom Deployment model (ship_3d_icon.glb)!');
@@ -240,7 +240,7 @@ function loadDeploymentModel() {
     undefined,
     _error => {
       console.warn(
-        'Custom deployment model "/models/ship_3d_icon.glb" not found. Falling back to procedural deployment cube.'
+        'Custom deployment model "models/ship_3d_icon.glb" not found. Falling back to procedural deployment cube.'
       );
     }
   );
@@ -263,8 +263,12 @@ function initUI() {
   // Action Button Listeners
   orbitBtn.addEventListener('click', toggleOrbit);
   resetBtn.addEventListener('click', resetCamera);
-  mockBtn.addEventListener('click', () => loadMockData(true));
-  loadBtn.addEventListener('click', () => loadData(true));
+  datasetSelect.addEventListener('change', () => {
+    loadSelectedDataset(datasetSelect.value);
+  });
+  refreshBtn.addEventListener('click', () => {
+    loadSelectedDataset(datasetSelect.value, true);
+  });
   closeInspectorBtn.addEventListener('click', closeInspector);
 
   // Namespace quick actions
@@ -1110,13 +1114,65 @@ function createCustomNodeObject(node) {
 // Data Operations & Parsing
 // ==========================================================================
 
-async function loadData(forceReload = false) {
-  statusMessage.textContent = 'Fetching cluster-graph.json...';
+function loadSelectedDataset(dataset, forceReload = false) {
+  let url = 'cluster-graph.json';
+  let name = 'Live Cluster';
+  let isDemo = false;
+
+  switch (dataset) {
+    case 'live':
+      url = 'cluster-graph.json';
+      name = 'Live Cluster';
+      isDemo = false;
+      break;
+    case 'small':
+      url = 'data/small.json';
+      name = 'Demo: Small';
+      isDemo = true;
+      break;
+    case 'medium':
+      url = 'data/medium.json';
+      name = 'Demo: Medium';
+      isDemo = true;
+      break;
+    case 'large':
+      url = 'data/large.json';
+      name = 'Demo: Large';
+      isDemo = true;
+      break;
+    case 'xl':
+      url = 'data/xl.json';
+      name = 'Demo: XL';
+      isDemo = true;
+      break;
+    case 'xxl':
+      url = 'data/xxl.json';
+      name = 'Demo: XXL';
+      isDemo = true;
+      break;
+    default:
+      break;
+  }
+
+  loadData(url, name, isDemo, forceReload);
+}
+
+async function loadData(
+  url = 'cluster-graph.json',
+  datasetName = 'Live Cluster',
+  isDemo = false,
+  forceReload = false
+) {
+  statusMessage.textContent = `Fetching ${datasetName}...`;
   try {
-    const url = forceReload ? `/cluster-graph.json?t=${Date.now()}` : '/cluster-graph.json';
-    const response = await fetch(url);
+    let fetchUrl = url;
+    if (fetchUrl.startsWith('/')) {
+      fetchUrl = fetchUrl.slice(1);
+    }
+    const finalUrl = forceReload ? `${fetchUrl}?t=${Date.now()}` : fetchUrl;
+    const response = await fetch(finalUrl);
     if (!response.ok) {
-      throw new Error('File not found');
+      throw new Error(`Failed to load ${datasetName}`);
     }
     const data = await response.json();
     if (!data.nodes || data.nodes.length === 0) {
@@ -1124,17 +1180,41 @@ async function loadData(forceReload = false) {
     }
 
     graphData = data;
-    dataSourceIndicator.textContent = 'Live Cluster';
-    dataSourceIndicator.className = 'badge live';
-    statusMessage.textContent = `Loaded ${graphData.nodes.length} nodes from cluster-graph.json.`;
+    dataSourceIndicator.textContent = datasetName;
+    dataSourceIndicator.className = `badge ${isDemo ? 'demo' : 'live'}`;
+    statusMessage.textContent = `Loaded ${graphData.nodes.length} nodes from ${datasetName}.`;
+
+    // Sync select dropdown UI if loaded automatically
+    if (datasetSelect) {
+      if (url === 'cluster-graph.json') {
+        datasetSelect.value = 'live';
+      } else if (url.includes('small.json')) {
+        datasetSelect.value = 'small';
+      } else if (url.includes('medium.json')) {
+        datasetSelect.value = 'medium';
+      } else if (url.includes('large.json')) {
+        datasetSelect.value = 'large';
+      } else if (url.includes('xl.json')) {
+        datasetSelect.value = 'xl';
+      } else if (url.includes('xxl.json')) {
+        datasetSelect.value = 'xxl';
+      }
+    }
 
     processLoadedData();
   } catch (error) {
-    console.warn(
-      'Failed to load live cluster-graph.json. Generating interactive mock data...',
-      error
-    );
-    loadMockData(false);
+    console.warn(`Failed to load ${datasetName}.`, error);
+    if (url === 'cluster-graph.json') {
+      statusMessage.textContent = 'Live cluster data not found. Loading Demo: Medium...';
+      loadData('data/medium.json', 'Demo: Medium', true, false);
+    } else if (url.startsWith('data/')) {
+      statusMessage.textContent =
+        'Failed to load demo files. Generating interactive procedural mock data...';
+      loadMockData(false);
+      if (datasetSelect) datasetSelect.value = 'medium';
+    } else {
+      statusMessage.textContent = `Error loading ${datasetName}: ${error.message}`;
+    }
   }
 }
 

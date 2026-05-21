@@ -1,0 +1,446 @@
+{
+  "nodes": [
+    {
+      "id": "node/aks-nodepool-small-1",
+      "name": "aks-nodepool-small-1",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-small",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-small-1",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-2"
+      },
+      "details": {
+        "internalIP": "10.240.0.4",
+        "cpu": "16",
+        "memory": "64Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "node/aks-nodepool-small-2",
+      "name": "aks-nodepool-small-2",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-small",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-small-2",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-3"
+      },
+      "details": {
+        "internalIP": "10.240.0.5",
+        "cpu": "4",
+        "memory": "16Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "namespace/kube-system",
+      "name": "kube-system",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "kube-system",
+        "istio-injection": "disabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.782Z",
+        "uid": "db2hz6n3-rqbo-7zik-nacd-844mjhlka7"
+      }
+    },
+    {
+      "id": "namespace/default",
+      "name": "default",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "default",
+        "istio-injection": "enabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.782Z",
+        "uid": "9y0m3eeu-5rsp-lrxn-2mys-a8ko3tbpy78"
+      }
+    },
+    {
+      "id": "deployment/kube-system/metrics-server",
+      "name": "metrics-server",
+      "type": "deployment",
+      "namespace": "kube-system",
+      "status": "Running",
+      "labels": {
+        "app": "metrics-server",
+        "version": "v1.2.0",
+        "tier": "frontend"
+      },
+      "details": {
+        "replicas": "1/1",
+        "strategy": "RollingUpdate",
+        "creationTimestamp": "2026-05-06T19:20:13.783Z"
+      }
+    },
+    {
+      "id": "serviceaccount/kube-system/metrics-server-sa",
+      "name": "metrics-server-sa",
+      "type": "serviceaccount",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "replicaset/kube-system/metrics-server-z7tdrsp2p",
+      "name": "metrics-server-z7tdrsp2p",
+      "type": "replicaset",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {
+        "app": "metrics-server"
+      },
+      "details": {
+        "replicas": "1/1"
+      }
+    },
+    {
+      "id": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "name": "metrics-server-5lg90dtl5-8pw4l",
+      "type": "pod",
+      "namespace": "kube-system",
+      "status": "Running",
+      "labels": {
+        "app": "metrics-server",
+        "podTemplateHash": "t4m5k47hu",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.253.253",
+        "hostIP": "10.240.0.5",
+        "nodeName": "aks-nodepool-small-2",
+        "restartCount": "4",
+        "serviceAccountName": "metrics-server-sa"
+      }
+    },
+    {
+      "id": "service/kube-system/metrics-server",
+      "name": "metrics-server",
+      "type": "service",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {
+        "app": "metrics-server"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.30.241",
+        "ports": ["6379/TCP (redis)"]
+      }
+    },
+    {
+      "id": "deployment/default/order-processor",
+      "name": "order-processor",
+      "type": "deployment",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "order-processor",
+        "version": "v1.2.0",
+        "tier": "frontend"
+      },
+      "details": {
+        "replicas": "1/1",
+        "strategy": "RollingUpdate",
+        "creationTimestamp": "2026-05-06T19:20:13.783Z"
+      }
+    },
+    {
+      "id": "serviceaccount/default/order-processor-sa",
+      "name": "order-processor-sa",
+      "type": "serviceaccount",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "replicaset/default/order-processor-z2z40k1gk",
+      "name": "order-processor-z2z40k1gk",
+      "type": "replicaset",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "order-processor"
+      },
+      "details": {
+        "replicas": "1/1"
+      }
+    },
+    {
+      "id": "pod/default/order-processor-iafch4f43-qdhd8",
+      "name": "order-processor-iafch4f43-qdhd8",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "order-processor",
+        "podTemplateHash": "u37yykhp8",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.133.92",
+        "hostIP": "10.240.0.5",
+        "nodeName": "aks-nodepool-small-1",
+        "restartCount": "3",
+        "serviceAccountName": "order-processor-sa"
+      }
+    },
+    {
+      "id": "service/default/order-processor",
+      "name": "order-processor",
+      "type": "service",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "order-processor"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.86.85",
+        "ports": ["80/TCP (http)"]
+      }
+    },
+    {
+      "id": "statefulset/default/cache-redis",
+      "name": "cache-redis",
+      "type": "statefulset",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "cache-redis",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "1/1",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.783Z"
+      }
+    },
+    {
+      "id": "serviceaccount/default/cache-redis-sa",
+      "name": "cache-redis-sa",
+      "type": "serviceaccount",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/default/data-volume-cache-redis-7tot",
+      "name": "data-volume-cache-redis-7tot",
+      "type": "pvc",
+      "namespace": "default",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "100Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/default/cache-redis-0",
+      "name": "cache-redis-0",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "cache-redis",
+        "podTemplateHash": "ywokt3wt0",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.180.94",
+        "hostIP": "10.240.0.4",
+        "nodeName": "aks-nodepool-small-1",
+        "restartCount": "0",
+        "serviceAccountName": "cache-redis-sa"
+      }
+    },
+    {
+      "id": "service/default/cache-redis",
+      "name": "cache-redis",
+      "type": "service",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "cache-redis"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.124.211",
+        "ports": ["8080/TCP (http)"]
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "namespace/kube-system",
+      "target": "deployment/kube-system/metrics-server",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "serviceaccount/kube-system/metrics-server-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "replicaset/kube-system/metrics-server-z7tdrsp2p",
+      "type": "contains"
+    },
+    {
+      "source": "deployment/kube-system/metrics-server",
+      "target": "replicaset/kube-system/metrics-server-z7tdrsp2p",
+      "type": "manages"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/kube-system/metrics-server-sa",
+      "target": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/kube-system/metrics-server-z7tdrsp2p",
+      "target": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-small-2",
+      "target": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "service/kube-system/metrics-server",
+      "type": "contains"
+    },
+    {
+      "source": "service/kube-system/metrics-server",
+      "target": "pod/kube-system/metrics-server-5lg90dtl5-8pw4l",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/default",
+      "target": "deployment/default/order-processor",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "serviceaccount/default/order-processor-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "replicaset/default/order-processor-z2z40k1gk",
+      "type": "contains"
+    },
+    {
+      "source": "deployment/default/order-processor",
+      "target": "replicaset/default/order-processor-z2z40k1gk",
+      "type": "manages"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/order-processor-iafch4f43-qdhd8",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/order-processor-sa",
+      "target": "pod/default/order-processor-iafch4f43-qdhd8",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/default/order-processor-z2z40k1gk",
+      "target": "pod/default/order-processor-iafch4f43-qdhd8",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-small-1",
+      "target": "pod/default/order-processor-iafch4f43-qdhd8",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/default",
+      "target": "service/default/order-processor",
+      "type": "contains"
+    },
+    {
+      "source": "service/default/order-processor",
+      "target": "pod/default/order-processor-iafch4f43-qdhd8",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/default",
+      "target": "statefulset/default/cache-redis",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "serviceaccount/default/cache-redis-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pvc/default/data-volume-cache-redis-7tot",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/cache-redis-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/cache-redis-sa",
+      "target": "pod/default/cache-redis-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/default/cache-redis",
+      "target": "pod/default/cache-redis-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-small-1",
+      "target": "pod/default/cache-redis-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/default/cache-redis-0",
+      "target": "pvc/default/data-volume-cache-redis-7tot",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/default",
+      "target": "service/default/cache-redis",
+      "type": "contains"
+    },
+    {
+      "source": "service/default/cache-redis",
+      "target": "pod/default/cache-redis-0",
+      "type": "routes-to",
+      "protocol": "http"
+    }
+  ]
+}

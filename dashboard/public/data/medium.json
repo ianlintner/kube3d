@@ -1,0 +1,1531 @@
+{
+  "nodes": [
+    {
+      "id": "node/aks-nodepool-medium-1",
+      "name": "aks-nodepool-medium-1",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-medium",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-medium-1",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-2"
+      },
+      "details": {
+        "internalIP": "10.240.0.4",
+        "cpu": "4",
+        "memory": "16Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "node/aks-nodepool-medium-2",
+      "name": "aks-nodepool-medium-2",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-medium",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-medium-2",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-3"
+      },
+      "details": {
+        "internalIP": "10.240.0.5",
+        "cpu": "16",
+        "memory": "64Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "node/aks-nodepool-medium-3",
+      "name": "aks-nodepool-medium-3",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-medium",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-medium-3",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-1"
+      },
+      "details": {
+        "internalIP": "10.240.0.6",
+        "cpu": "16",
+        "memory": "64Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "node/aks-nodepool-medium-4",
+      "name": "aks-nodepool-medium-4",
+      "type": "node",
+      "status": "Ready",
+      "labels": {
+        "agentpool": "agentpool-medium",
+        "kubernetes.io/os": "linux",
+        "kubernetes.io/hostname": "aks-nodepool-medium-4",
+        "topology.kubernetes.io/region": "eastus",
+        "topology.kubernetes.io/zone": "eastus-2"
+      },
+      "details": {
+        "internalIP": "10.240.0.7",
+        "cpu": "4",
+        "memory": "16Gi",
+        "kubeletVersion": "v1.28.3",
+        "osImage": "Ubuntu 22.04.3 LTS"
+      }
+    },
+    {
+      "id": "namespace/kube-system",
+      "name": "kube-system",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "kube-system",
+        "istio-injection": "disabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.785Z",
+        "uid": "m5ys8gjc-bwmc-1qnn-s444-lk1z8v5pim"
+      }
+    },
+    {
+      "id": "namespace/default",
+      "name": "default",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "default",
+        "istio-injection": "enabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.785Z",
+        "uid": "adgyzony-r99e-ttlk-ae4r-vwskx9i1s1m"
+      }
+    },
+    {
+      "id": "namespace/monitoring",
+      "name": "monitoring",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "monitoring",
+        "istio-injection": "enabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.785Z",
+        "uid": "dypbz0n2-3da8-j0hb-uktl-il9z2l95zk"
+      }
+    },
+    {
+      "id": "namespace/dev",
+      "name": "dev",
+      "type": "namespace",
+      "status": "Active",
+      "labels": {
+        "kubernetes.io/metadata.name": "dev",
+        "istio-injection": "enabled"
+      },
+      "details": {
+        "creationTimestamp": "2026-04-21T19:20:13.785Z",
+        "uid": "curj8ore-9qa8-ha8t-093p-o0hotcz3e4"
+      }
+    },
+    {
+      "id": "deployment/kube-system/aws-node",
+      "name": "aws-node",
+      "type": "deployment",
+      "namespace": "kube-system",
+      "status": "Running",
+      "labels": {
+        "app": "aws-node",
+        "version": "v1.2.0",
+        "tier": "frontend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "RollingUpdate",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/kube-system/aws-node-sa",
+      "name": "aws-node-sa",
+      "type": "serviceaccount",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "replicaset/kube-system/aws-node-jfpmwwp2q",
+      "name": "aws-node-jfpmwwp2q",
+      "type": "replicaset",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {
+        "app": "aws-node"
+      },
+      "details": {
+        "replicas": "2/2"
+      }
+    },
+    {
+      "id": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "name": "aws-node-ahr5f9vco-oqrxr",
+      "type": "pod",
+      "namespace": "kube-system",
+      "status": "Running",
+      "labels": {
+        "app": "aws-node",
+        "podTemplateHash": "meopuog3k",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.232.82",
+        "hostIP": "10.240.0.5",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "aws-node-sa"
+      }
+    },
+    {
+      "id": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "name": "aws-node-vtnehx0qc-y9ubv",
+      "type": "pod",
+      "namespace": "kube-system",
+      "status": "Running",
+      "labels": {
+        "app": "aws-node",
+        "podTemplateHash": "c8vqwksiu",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.209.78",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "aws-node-sa"
+      }
+    },
+    {
+      "id": "service/kube-system/aws-node",
+      "name": "aws-node",
+      "type": "service",
+      "namespace": "kube-system",
+      "status": "Active",
+      "labels": {
+        "app": "aws-node"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.95.140",
+        "ports": ["6379/TCP (redis)"]
+      }
+    },
+    {
+      "id": "deployment/default/notification-service",
+      "name": "notification-service",
+      "type": "deployment",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "notification-service",
+        "version": "v1.2.0",
+        "tier": "frontend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "RollingUpdate",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/default/notification-service-sa",
+      "name": "notification-service-sa",
+      "type": "serviceaccount",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "replicaset/default/notification-service-rtkpcrk32",
+      "name": "notification-service-rtkpcrk32",
+      "type": "replicaset",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "notification-service"
+      },
+      "details": {
+        "replicas": "2/2"
+      }
+    },
+    {
+      "id": "pod/default/notification-service-q950hvh56-6ns4y",
+      "name": "notification-service-q950hvh56-6ns4y",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "notification-service",
+        "podTemplateHash": "8veomd0q2",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.14.48",
+        "hostIP": "10.240.0.5",
+        "nodeName": "aks-nodepool-medium-1",
+        "restartCount": "0",
+        "serviceAccountName": "notification-service-sa"
+      }
+    },
+    {
+      "id": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "name": "notification-service-hwt7qwz3l-kj5aq",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "notification-service",
+        "podTemplateHash": "81cpbkelk",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.150.118",
+        "hostIP": "10.240.0.5",
+        "nodeName": "aks-nodepool-medium-4",
+        "restartCount": "0",
+        "serviceAccountName": "notification-service-sa"
+      }
+    },
+    {
+      "id": "service/default/notification-service",
+      "name": "notification-service",
+      "type": "service",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "notification-service"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.195.94",
+        "ports": ["6379/TCP (redis)"]
+      }
+    },
+    {
+      "id": "statefulset/default/inventory-db",
+      "name": "inventory-db",
+      "type": "statefulset",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/default/inventory-db-sa",
+      "name": "inventory-db-sa",
+      "type": "serviceaccount",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/default/data-volume-inventory-db-bvte",
+      "name": "data-volume-inventory-db-bvte",
+      "type": "pvc",
+      "namespace": "default",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "100Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/default/inventory-db-0",
+      "name": "inventory-db-0",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "podTemplateHash": "c8r0esgur",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.154.164",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-2",
+        "restartCount": "0",
+        "serviceAccountName": "inventory-db-sa"
+      }
+    },
+    {
+      "id": "pod/default/inventory-db-1",
+      "name": "inventory-db-1",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "podTemplateHash": "815vt334w",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.12.200",
+        "hostIP": "10.240.0.6",
+        "nodeName": "aks-nodepool-medium-1",
+        "restartCount": "0",
+        "serviceAccountName": "inventory-db-sa"
+      }
+    },
+    {
+      "id": "service/default/inventory-db",
+      "name": "inventory-db",
+      "type": "service",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "inventory-db"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.102.161",
+        "ports": ["9090/TCP (grpc)"]
+      }
+    },
+    {
+      "id": "statefulset/default/search-indexer",
+      "name": "search-indexer",
+      "type": "statefulset",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/default/search-indexer-sa",
+      "name": "search-indexer-sa",
+      "type": "serviceaccount",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/default/data-volume-search-indexer-pvr8",
+      "name": "data-volume-search-indexer-pvr8",
+      "type": "pvc",
+      "namespace": "default",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "10Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/default/search-indexer-0",
+      "name": "search-indexer-0",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "podTemplateHash": "ca5bp405n",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.104.38",
+        "hostIP": "10.240.0.4",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "search-indexer-sa"
+      }
+    },
+    {
+      "id": "pod/default/search-indexer-1",
+      "name": "search-indexer-1",
+      "type": "pod",
+      "namespace": "default",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "podTemplateHash": "ajpko7334",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.231.24",
+        "hostIP": "10.240.0.4",
+        "nodeName": "aks-nodepool-medium-2",
+        "restartCount": "0",
+        "serviceAccountName": "search-indexer-sa"
+      }
+    },
+    {
+      "id": "service/default/search-indexer",
+      "name": "search-indexer",
+      "type": "service",
+      "namespace": "default",
+      "status": "Active",
+      "labels": {
+        "app": "search-indexer"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.41.69",
+        "ports": ["6379/TCP (redis)"]
+      }
+    },
+    {
+      "id": "statefulset/monitoring/loki",
+      "name": "loki",
+      "type": "statefulset",
+      "namespace": "monitoring",
+      "status": "Running",
+      "labels": {
+        "app": "loki",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/monitoring/loki-sa",
+      "name": "loki-sa",
+      "type": "serviceaccount",
+      "namespace": "monitoring",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/monitoring/data-volume-loki-1udb",
+      "name": "data-volume-loki-1udb",
+      "type": "pvc",
+      "namespace": "monitoring",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "50Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/monitoring/loki-0",
+      "name": "loki-0",
+      "type": "pod",
+      "namespace": "monitoring",
+      "status": "Running",
+      "labels": {
+        "app": "loki",
+        "podTemplateHash": "c073r7bmm",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.29.125",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "loki-sa"
+      }
+    },
+    {
+      "id": "pod/monitoring/loki-1",
+      "name": "loki-1",
+      "type": "pod",
+      "namespace": "monitoring",
+      "status": "Running",
+      "labels": {
+        "app": "loki",
+        "podTemplateHash": "9ulyodlsz",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.79.44",
+        "hostIP": "10.240.0.6",
+        "nodeName": "aks-nodepool-medium-4",
+        "restartCount": "0",
+        "serviceAccountName": "loki-sa"
+      }
+    },
+    {
+      "id": "service/monitoring/loki",
+      "name": "loki",
+      "type": "service",
+      "namespace": "monitoring",
+      "status": "Active",
+      "labels": {
+        "app": "loki"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.154.158",
+        "ports": ["80/TCP (http)"]
+      }
+    },
+    {
+      "id": "deployment/dev/recommendation-engine",
+      "name": "recommendation-engine",
+      "type": "deployment",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "recommendation-engine",
+        "version": "v1.2.0",
+        "tier": "frontend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "RollingUpdate",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/dev/recommendation-engine-sa",
+      "name": "recommendation-engine-sa",
+      "type": "serviceaccount",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "replicaset/dev/recommendation-engine-egh1546lr",
+      "name": "recommendation-engine-egh1546lr",
+      "type": "replicaset",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {
+        "app": "recommendation-engine"
+      },
+      "details": {
+        "replicas": "2/2"
+      }
+    },
+    {
+      "id": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "name": "recommendation-engine-mrztp62m3-mgwig",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "recommendation-engine",
+        "podTemplateHash": "2v87bo5cw",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.62.91",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "recommendation-engine-sa"
+      }
+    },
+    {
+      "id": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "name": "recommendation-engine-mydjfsjvr-fkany",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "recommendation-engine",
+        "podTemplateHash": "fee0hp3su",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.29.157",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "recommendation-engine-sa"
+      }
+    },
+    {
+      "id": "service/dev/recommendation-engine",
+      "name": "recommendation-engine",
+      "type": "service",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {
+        "app": "recommendation-engine"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.178.41",
+        "ports": ["9090/TCP (grpc)"]
+      }
+    },
+    {
+      "id": "statefulset/dev/inventory-db",
+      "name": "inventory-db",
+      "type": "statefulset",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/dev/inventory-db-sa",
+      "name": "inventory-db-sa",
+      "type": "serviceaccount",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/dev/data-volume-inventory-db-gt3g",
+      "name": "data-volume-inventory-db-gt3g",
+      "type": "pvc",
+      "namespace": "dev",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "10Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/dev/inventory-db-0",
+      "name": "inventory-db-0",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "podTemplateHash": "ays3hgugg",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.28.165",
+        "hostIP": "10.240.0.4",
+        "nodeName": "aks-nodepool-medium-1",
+        "restartCount": "0",
+        "serviceAccountName": "inventory-db-sa"
+      }
+    },
+    {
+      "id": "pod/dev/inventory-db-1",
+      "name": "inventory-db-1",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "inventory-db",
+        "podTemplateHash": "teq16ov5c",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.83.18",
+        "hostIP": "10.240.0.4",
+        "nodeName": "aks-nodepool-medium-3",
+        "restartCount": "0",
+        "serviceAccountName": "inventory-db-sa"
+      }
+    },
+    {
+      "id": "service/dev/inventory-db",
+      "name": "inventory-db",
+      "type": "service",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {
+        "app": "inventory-db"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.108.220",
+        "ports": ["80/TCP (http)"]
+      }
+    },
+    {
+      "id": "statefulset/dev/search-indexer",
+      "name": "search-indexer",
+      "type": "statefulset",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "version": "v1.2.0",
+        "tier": "backend"
+      },
+      "details": {
+        "replicas": "2/2",
+        "strategy": "OnDelete",
+        "creationTimestamp": "2026-05-06T19:20:13.785Z"
+      }
+    },
+    {
+      "id": "serviceaccount/dev/search-indexer-sa",
+      "name": "search-indexer-sa",
+      "type": "serviceaccount",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {},
+      "details": {}
+    },
+    {
+      "id": "pvc/dev/data-volume-search-indexer-qqma",
+      "name": "data-volume-search-indexer-qqma",
+      "type": "pvc",
+      "namespace": "dev",
+      "status": "Bound",
+      "labels": {},
+      "details": {
+        "storageClass": "managed-premium",
+        "capacity": "500Gi",
+        "accessModes": ["ReadWriteOnce"]
+      }
+    },
+    {
+      "id": "pod/dev/search-indexer-0",
+      "name": "search-indexer-0",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "podTemplateHash": "qur1w1kcs",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.139.169",
+        "hostIP": "10.240.0.7",
+        "nodeName": "aks-nodepool-medium-1",
+        "restartCount": "0",
+        "serviceAccountName": "search-indexer-sa"
+      }
+    },
+    {
+      "id": "pod/dev/search-indexer-1",
+      "name": "search-indexer-1",
+      "type": "pod",
+      "namespace": "dev",
+      "status": "Running",
+      "labels": {
+        "app": "search-indexer",
+        "podTemplateHash": "exqrumk2e",
+        "version": "v1.2.0"
+      },
+      "details": {
+        "podIP": "10.244.154.170",
+        "hostIP": "10.240.0.6",
+        "nodeName": "aks-nodepool-medium-2",
+        "restartCount": "0",
+        "serviceAccountName": "search-indexer-sa"
+      }
+    },
+    {
+      "id": "service/dev/search-indexer",
+      "name": "search-indexer",
+      "type": "service",
+      "namespace": "dev",
+      "status": "Active",
+      "labels": {
+        "app": "search-indexer"
+      },
+      "details": {
+        "serviceType": "ClusterIP",
+        "clusterIP": "10.0.246.184",
+        "ports": ["80/TCP (http)"]
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "namespace/kube-system",
+      "target": "deployment/kube-system/aws-node",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "serviceaccount/kube-system/aws-node-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "replicaset/kube-system/aws-node-jfpmwwp2q",
+      "type": "contains"
+    },
+    {
+      "source": "deployment/kube-system/aws-node",
+      "target": "replicaset/kube-system/aws-node-jfpmwwp2q",
+      "type": "manages"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/kube-system/aws-node-sa",
+      "target": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/kube-system/aws-node-jfpmwwp2q",
+      "target": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-3",
+      "target": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/kube-system/aws-node-sa",
+      "target": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/kube-system/aws-node-jfpmwwp2q",
+      "target": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-3",
+      "target": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/kube-system",
+      "target": "service/kube-system/aws-node",
+      "type": "contains"
+    },
+    {
+      "source": "service/kube-system/aws-node",
+      "target": "pod/kube-system/aws-node-ahr5f9vco-oqrxr",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/kube-system/aws-node",
+      "target": "pod/kube-system/aws-node-vtnehx0qc-y9ubv",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/default",
+      "target": "deployment/default/notification-service",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "serviceaccount/default/notification-service-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "replicaset/default/notification-service-rtkpcrk32",
+      "type": "contains"
+    },
+    {
+      "source": "deployment/default/notification-service",
+      "target": "replicaset/default/notification-service-rtkpcrk32",
+      "type": "manages"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/notification-service-q950hvh56-6ns4y",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/notification-service-sa",
+      "target": "pod/default/notification-service-q950hvh56-6ns4y",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/default/notification-service-rtkpcrk32",
+      "target": "pod/default/notification-service-q950hvh56-6ns4y",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-2",
+      "target": "pod/default/notification-service-q950hvh56-6ns4y",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/notification-service-sa",
+      "target": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/default/notification-service-rtkpcrk32",
+      "target": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-2",
+      "target": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/default",
+      "target": "service/default/notification-service",
+      "type": "contains"
+    },
+    {
+      "source": "service/default/notification-service",
+      "target": "pod/default/notification-service-q950hvh56-6ns4y",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/default/notification-service",
+      "target": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/default",
+      "target": "statefulset/default/inventory-db",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "serviceaccount/default/inventory-db-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pvc/default/data-volume-inventory-db-bvte",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/inventory-db-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/inventory-db-sa",
+      "target": "pod/default/inventory-db-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/default/inventory-db",
+      "target": "pod/default/inventory-db-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-4",
+      "target": "pod/default/inventory-db-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/default/inventory-db-0",
+      "target": "pvc/default/data-volume-inventory-db-bvte",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/inventory-db-1",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/inventory-db-sa",
+      "target": "pod/default/inventory-db-1",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/default/inventory-db",
+      "target": "pod/default/inventory-db-1",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-3",
+      "target": "pod/default/inventory-db-1",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/default/inventory-db-1",
+      "target": "pvc/default/data-volume-inventory-db-bvte",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/default",
+      "target": "service/default/inventory-db",
+      "type": "contains"
+    },
+    {
+      "source": "service/default/inventory-db",
+      "target": "pod/default/inventory-db-0",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/default/inventory-db",
+      "target": "pod/default/inventory-db-1",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/default",
+      "target": "statefulset/default/search-indexer",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "serviceaccount/default/search-indexer-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pvc/default/data-volume-search-indexer-pvr8",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/search-indexer-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/search-indexer-sa",
+      "target": "pod/default/search-indexer-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/default/search-indexer",
+      "target": "pod/default/search-indexer-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-4",
+      "target": "pod/default/search-indexer-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/default/search-indexer-0",
+      "target": "pvc/default/data-volume-search-indexer-pvr8",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/default",
+      "target": "pod/default/search-indexer-1",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/default/search-indexer-sa",
+      "target": "pod/default/search-indexer-1",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/default/search-indexer",
+      "target": "pod/default/search-indexer-1",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-2",
+      "target": "pod/default/search-indexer-1",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/default/search-indexer-1",
+      "target": "pvc/default/data-volume-search-indexer-pvr8",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/default",
+      "target": "service/default/search-indexer",
+      "type": "contains"
+    },
+    {
+      "source": "service/default/search-indexer",
+      "target": "pod/default/search-indexer-0",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/default/search-indexer",
+      "target": "pod/default/search-indexer-1",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "statefulset/monitoring/loki",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "serviceaccount/monitoring/loki-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "pvc/monitoring/data-volume-loki-1udb",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "pod/monitoring/loki-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/monitoring/loki-sa",
+      "target": "pod/monitoring/loki-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/monitoring/loki",
+      "target": "pod/monitoring/loki-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-1",
+      "target": "pod/monitoring/loki-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/monitoring/loki-0",
+      "target": "pvc/monitoring/data-volume-loki-1udb",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "pod/monitoring/loki-1",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/monitoring/loki-sa",
+      "target": "pod/monitoring/loki-1",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/monitoring/loki",
+      "target": "pod/monitoring/loki-1",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-3",
+      "target": "pod/monitoring/loki-1",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/monitoring/loki-1",
+      "target": "pvc/monitoring/data-volume-loki-1udb",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/monitoring",
+      "target": "service/monitoring/loki",
+      "type": "contains"
+    },
+    {
+      "source": "service/monitoring/loki",
+      "target": "pod/monitoring/loki-0",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/monitoring/loki",
+      "target": "pod/monitoring/loki-1",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "deployment/dev/recommendation-engine",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "serviceaccount/dev/recommendation-engine-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "replicaset/dev/recommendation-engine-egh1546lr",
+      "type": "contains"
+    },
+    {
+      "source": "deployment/dev/recommendation-engine",
+      "target": "replicaset/dev/recommendation-engine-egh1546lr",
+      "type": "manages"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/recommendation-engine-sa",
+      "target": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/dev/recommendation-engine-egh1546lr",
+      "target": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-1",
+      "target": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/recommendation-engine-sa",
+      "target": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "type": "binds"
+    },
+    {
+      "source": "replicaset/dev/recommendation-engine-egh1546lr",
+      "target": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-4",
+      "target": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "type": "hosts"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "service/dev/recommendation-engine",
+      "type": "contains"
+    },
+    {
+      "source": "service/dev/recommendation-engine",
+      "target": "pod/dev/recommendation-engine-mrztp62m3-mgwig",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/dev/recommendation-engine",
+      "target": "pod/dev/recommendation-engine-mydjfsjvr-fkany",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "statefulset/dev/inventory-db",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "serviceaccount/dev/inventory-db-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pvc/dev/data-volume-inventory-db-gt3g",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/inventory-db-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/inventory-db-sa",
+      "target": "pod/dev/inventory-db-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/dev/inventory-db",
+      "target": "pod/dev/inventory-db-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-3",
+      "target": "pod/dev/inventory-db-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/dev/inventory-db-0",
+      "target": "pvc/dev/data-volume-inventory-db-gt3g",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/inventory-db-1",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/inventory-db-sa",
+      "target": "pod/dev/inventory-db-1",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/dev/inventory-db",
+      "target": "pod/dev/inventory-db-1",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-4",
+      "target": "pod/dev/inventory-db-1",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/dev/inventory-db-1",
+      "target": "pvc/dev/data-volume-inventory-db-gt3g",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "service/dev/inventory-db",
+      "type": "contains"
+    },
+    {
+      "source": "service/dev/inventory-db",
+      "target": "pod/dev/inventory-db-0",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/dev/inventory-db",
+      "target": "pod/dev/inventory-db-1",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "statefulset/dev/search-indexer",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "serviceaccount/dev/search-indexer-sa",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pvc/dev/data-volume-search-indexer-qqma",
+      "type": "contains"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/search-indexer-0",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/search-indexer-sa",
+      "target": "pod/dev/search-indexer-0",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/dev/search-indexer",
+      "target": "pod/dev/search-indexer-0",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-1",
+      "target": "pod/dev/search-indexer-0",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/dev/search-indexer-0",
+      "target": "pvc/dev/data-volume-search-indexer-qqma",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "pod/dev/search-indexer-1",
+      "type": "contains"
+    },
+    {
+      "source": "serviceaccount/dev/search-indexer-sa",
+      "target": "pod/dev/search-indexer-1",
+      "type": "binds"
+    },
+    {
+      "source": "statefulset/dev/search-indexer",
+      "target": "pod/dev/search-indexer-1",
+      "type": "manages"
+    },
+    {
+      "source": "node/aks-nodepool-medium-2",
+      "target": "pod/dev/search-indexer-1",
+      "type": "hosts"
+    },
+    {
+      "source": "pod/dev/search-indexer-1",
+      "target": "pvc/dev/data-volume-search-indexer-qqma",
+      "type": "claims-volume"
+    },
+    {
+      "source": "namespace/dev",
+      "target": "service/dev/search-indexer",
+      "type": "contains"
+    },
+    {
+      "source": "service/dev/search-indexer",
+      "target": "pod/dev/search-indexer-0",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "service/dev/search-indexer",
+      "target": "pod/dev/search-indexer-1",
+      "type": "routes-to",
+      "protocol": "http"
+    },
+    {
+      "source": "pod/default/notification-service-q950hvh56-6ns4y",
+      "target": "service/default/inventory-db",
+      "type": "routes-to",
+      "protocol": "tcp"
+    },
+    {
+      "source": "pod/default/notification-service-hwt7qwz3l-kj5aq",
+      "target": "service/default/inventory-db",
+      "type": "routes-to",
+      "protocol": "tcp"
+    }
+  ]
+}

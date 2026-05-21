@@ -34,11 +34,16 @@
       <div class="actions-area">
         <button id="orbit-btn" class="action-btn" title="Toggle Auto Orbit">Orbit Off</button>
         <button id="reset-btn" class="action-btn" title="Reset Camera View">Reset Cam</button>
-        <button id="mock-btn" class="action-btn secondary-btn" title="Load Mock Cluster Data">
-          Load Demo
-        </button>
-        <button id="load-btn" class="action-btn primary-btn" title="Reload live cluster-graph.json">
-          Fetch Live
+        <select id="dataset-select" class="dataset-select" title="Select cluster dataset">
+          <option value="live">Live Cluster</option>
+          <option value="small">Demo: Small</option>
+          <option value="medium" selected>Demo: Medium</option>
+          <option value="large">Demo: Large</option>
+          <option value="xl">Demo: XL</option>
+          <option value="xxl">Demo: XXL</option>
+        </select>
+        <button id="refresh-btn" class="action-btn primary-btn" title="Reload selected dataset">
+          🔄
         </button>
       </div>
     </header>

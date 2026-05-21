@@ -4,7 +4,8 @@
   "description": "3D visualization dashboard for Kubernetes clusters",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "generate-demos": "node scripts/generate-demos.js",
+    "build": "npm run generate-demos && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

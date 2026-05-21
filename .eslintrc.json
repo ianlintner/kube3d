@@ -27,6 +27,16 @@
       "parserOptions": {
         "sourceType": "module"
       }
+    },
+    {
+      "files": ["dashboard/scripts/**/*.js"],
+      "env": {
+        "node": true,
+        "commonjs": true
+      },
+      "parserOptions": {
+        "sourceType": "script"
+      }
     }
   ],
   "rules": {
