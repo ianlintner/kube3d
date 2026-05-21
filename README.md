@@ -7,6 +7,7 @@ Kube3D is a premium, interactive **3D force-directed graph visualizer** for Kube
 ## 📺 Interactive Video Demo
 
 [![Kube3D Demo Video](https://img.youtube.com/vi/HjOjzAvanLw/0.jpg)](https://youtu.be/HjOjzAvanLw)
+
 _Click the preview image above to watch the interactive Kube3D YouTube demo._
 
 ---
